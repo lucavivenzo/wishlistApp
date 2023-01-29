@@ -8,15 +8,15 @@ public class Friendship {
     private Long id;
     private User user1;
     private User user2;
-    private LocalDate firendshipDate;
+    private LocalDate friendshipDate;
 
     public Friendship() {
     }
 
-    public Friendship(User user1, User user2, LocalDate firendshipDate) {
+    public Friendship(User user1, User user2, LocalDate friendshipDate) {
         this.user1 = user1;
         this.user2 = user2;
-        this.firendshipDate = firendshipDate;
+        this.friendshipDate = friendshipDate;
     }
 
     public Long getId() {
@@ -43,11 +43,11 @@ public class Friendship {
         this.user2 = user2;
     }
 
-    public LocalDate getFirendshipDate() {
-        return firendshipDate;
+    public LocalDate getFriendshipDate() {
+        return friendshipDate;
     }
 
-    public void setFirendshipDate(LocalDate firendshipDate) {
-        this.firendshipDate = firendshipDate;
+    public void setFriendshipDate(LocalDate friendshipDate) {
+        this.friendshipDate = friendshipDate;
     }
 }
