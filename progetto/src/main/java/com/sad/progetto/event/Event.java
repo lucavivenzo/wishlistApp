@@ -1,25 +1,32 @@
 package com.sad.progetto.event;
 
-import com.sad.progetto.user.User;
+import com.sad.progetto.appUser.AppUser;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.Set;
-
+@Entity
 public class Event {
+    @Id
+    @SequenceGenerator(name="eventSequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "eventSequence")
     private Long id;
     private String name;
     private String description;
     private LocalDate date;
     private String eventAddress;
-    private User organizer;
-    private Set<User> guests;
+    @ManyToOne
+    @JoinColumn
+    private AppUser organizer;
+    @OneToMany
+    private Set<AppUser> guests;
 
 
 
     public Event() {
     }
 
-    public Event(String name, String description, LocalDate date, String eventAddress, User organizer, Set<User> guests) {
+    public Event(String name, String description, LocalDate date, String eventAddress, AppUser organizer, Set<AppUser> guests) {
         this.name = name;
         this.description = description;
         this.date = date;
@@ -28,19 +35,19 @@ public class Event {
         this.guests = guests;
     }
 
-    public User getOrganizer() {
+    public AppUser getOrganizer() {
         return organizer;
     }
 
-    public void setOrganizer(User organizer) {
+    public void setOrganizer(AppUser organizer) {
         this.organizer = organizer;
     }
 
-    public Set<User> getGuests() {
+    public Set<AppUser> getGuests() {
         return guests;
     }
 
-    public void setGuests(Set<User> guests) {
+    public void setGuests(Set<AppUser> guests) {
         this.guests = guests;
     }
 

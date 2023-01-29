@@ -1,23 +1,31 @@
-package com.sad.progetto.user;
+package com.sad.progetto.appUser;
 
 import com.sad.progetto.friendship.Friendship;
 import com.sad.progetto.event.Event;
+import jakarta.persistence.*;
 
 import java.util.Set;
 
-public class User {
+@Entity
+public class AppUser {
+    @Id
+    @SequenceGenerator(name="userSequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSequence")
     private Long id;
     private String username;
     private String email;
     private String password;
+    @OneToMany
     private Set<Friendship> friendships;
+    @OneToMany
     private Set<Event> organizedEvents;
+    @OneToMany
     private Set<Event> events;
 
-    public User() {
+    public AppUser() {
     }
 
-    public User(String username, String email, String password, Set<Friendship> friendships, Set<Event> organizedEvents, Set<Event> events) {
+    public AppUser(String username, String email, String password, Set<Friendship> friendships, Set<Event> organizedEvents, Set<Event> events) {
         this.username = username;
         this.email = email;
         this.password = password;
