@@ -1,6 +1,9 @@
 package com.sad.progetto.event;
 
+import com.sad.progetto.user.User;
+
 import java.time.LocalDate;
+import java.util.Set;
 
 public class Event {
     private Long id;
@@ -8,23 +11,37 @@ public class Event {
     private String description;
     private LocalDate date;
     private String eventAddress;
+    private User organizer;
+    private Set<User> guests;
 
-    public Event(Long id, String name, String description, LocalDate date, String eventAddress) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.date = date;
-        this.eventAddress = eventAddress;
-    }
+
 
     public Event() {
     }
 
-    public Event(String name, String description, LocalDate date, String eventAddress) {
+    public Event(String name, String description, LocalDate date, String eventAddress, User organizer, Set<User> guests) {
         this.name = name;
         this.description = description;
         this.date = date;
         this.eventAddress = eventAddress;
+        this.organizer = organizer;
+        this.guests = guests;
+    }
+
+    public User getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(User organizer) {
+        this.organizer = organizer;
+    }
+
+    public Set<User> getGuests() {
+        return guests;
+    }
+
+    public void setGuests(Set<User> guests) {
+        this.guests = guests;
     }
 
     public Long getId() {
