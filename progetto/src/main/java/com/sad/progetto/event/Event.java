@@ -1,6 +1,7 @@
 package com.sad.progetto.event;
 
 import com.sad.progetto.appUser.AppUser;
+import com.sad.progetto.wishlist.Wishlist;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -20,19 +21,30 @@ public class Event {
     private AppUser organizer;
     @OneToMany
     private Set<AppUser> guests;
+    @OneToOne
+    private Wishlist wishlist;
 
 
 
     public Event() {
     }
 
-    public Event(String name, String description, LocalDate date, String eventAddress, AppUser organizer, Set<AppUser> guests) {
+    public Event(String name, String description, LocalDate date, String eventAddress, AppUser organizer, Set<AppUser> guests, Wishlist wishlist) {
         this.name = name;
         this.description = description;
         this.date = date;
         this.eventAddress = eventAddress;
         this.organizer = organizer;
         this.guests = guests;
+        this.wishlist = wishlist;
+    }
+
+    public Wishlist getWishlist() {
+        return wishlist;
+    }
+
+    public void setWishlist(Wishlist wishlist) {
+        this.wishlist = wishlist;
     }
 
     public AppUser getOrganizer() {

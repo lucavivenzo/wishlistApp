@@ -16,8 +16,8 @@ public class Wishlist {
     private String name;
     private String description;
     private Integer size;
-    @OneToMany
-    private Set<Event> events;
+    @OneToOne
+    private Event event;
     @ManyToOne
     @JoinColumn
     private AppUser owner;
@@ -27,11 +27,17 @@ public class Wishlist {
     public Wishlist() {
     }
 
-    public Wishlist(String name, String description, Integer size, Set<Event> events, AppUser owner, Set<Present> presents) {
+    public Wishlist(String name, String description, Integer size) {
         this.name = name;
         this.description = description;
         this.size = size;
-        this.events = events;
+    }
+
+    public Wishlist(String name, String description, Integer size, Event event, AppUser owner, Set<Present> presents) {
+        this.name = name;
+        this.description = description;
+        this.size = size;
+        this.event = event;
         this.owner = owner;
         this.presents = presents;
     }
@@ -68,12 +74,12 @@ public class Wishlist {
         this.size = size;
     }
 
-    public Set<Event> getEvents() {
-        return events;
+    public Event getEvent() {
+        return event;
     }
 
-    public void setEvents(Set<Event> events) {
-        this.events = events;
+    public void setEvent(Event event) {
+        this.event = event;
     }
 
     public AppUser getOwner() {

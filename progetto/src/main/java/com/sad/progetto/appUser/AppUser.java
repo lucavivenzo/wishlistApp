@@ -1,7 +1,9 @@
 package com.sad.progetto.appUser;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sad.progetto.friendship.Friendship;
 import com.sad.progetto.event.Event;
+import com.sad.progetto.wishlist.Wishlist;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -16,11 +18,17 @@ public class AppUser {
     private String email;
     private String password;
     @OneToMany
+    @JsonIgnore
     private Set<Friendship> friendships;
     @OneToMany
+    @JsonIgnore
     private Set<Event> organizedEvents;
     @OneToMany
+    @JsonIgnore
     private Set<Event> events;
+    @OneToMany
+    @JsonIgnore
+    private Set<Wishlist> wishlists;
 
     public AppUser() {
     }
@@ -98,5 +106,19 @@ public class AppUser {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    public Set<Wishlist> getWishlists() {
+        return wishlists;
+    }
+
+    public void setWishlists(Set<Wishlist> wishlists) {
+        this.wishlists = wishlists;
+    }
+
+    public AppUser(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 }
