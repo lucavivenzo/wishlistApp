@@ -81,5 +81,10 @@ public class WishlistService {
         return;
     }
 
+    public List<Present> getAllPresents(Long wishlistId){
+        Wishlist wishlist=wishlistRepository.findById(wishlistId).get();
+        return presentRepository.findByWishlist(wishlist);
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package com.sad.progetto.wishlist;
 
+import com.sad.progetto.present.Present;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,5 +41,10 @@ public class WishlistController {
     @GetMapping(path="{wishlistId}/delete/{presentId}")//DA CAMBIARE IN DELETE
     public void removePresent(@PathVariable("wishlistId") Long wishlistId, @PathVariable("presentId") Long presentId){
         wishlistService.removePresent(wishlistId,presentId);
+    }
+
+    @GetMapping(path="{wishlistId}/allpresents")
+    public List<Present> getAllPresents(@PathVariable("wishlistId") Long wishlistId){
+        return wishlistService.getAllPresents(wishlistId);
     }
 }
