@@ -1,44 +1,30 @@
 package com.sad.progetto.wishlist;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sad.progetto.event.Event;
 import com.sad.progetto.present.Present;
-import com.sad.progetto.appUser.AppUser;
-import jakarta.persistence.*;
+import com.sad.progetto.user.User;
 
+import java.util.List;
 import java.util.Set;
 
-@Entity
 public class Wishlist {
-    @Id
-    @SequenceGenerator(name="wishlistSequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "wishlistSequence")
     private Long id;
     private String name;
     private String description;
     private Integer size;
-    @OneToOne
-    private Event event;
-    @ManyToOne
-    @JoinColumn
-    private AppUser owner;
-    @OneToMany
-    @JsonIgnore
+
+    private Set<Event> events;
+    private User owner;
     private Set<Present> presents;
 
     public Wishlist() {
     }
 
-    public Wishlist(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public Wishlist(String name, String description, Integer size, Event event, AppUser owner, Set<Present> presents) {
+    public Wishlist(String name, String description, Integer size, Set<Event> events, User owner, Set<Present> presents) {
         this.name = name;
         this.description = description;
         this.size = size;
-        this.event = event;
+        this.events = events;
         this.owner = owner;
         this.presents = presents;
     }
@@ -75,19 +61,19 @@ public class Wishlist {
         this.size = size;
     }
 
-    public Event getEvent() {
-        return event;
+    public Set<Event> getEvents() {
+        return events;
     }
 
-    public void setEvent(Event event) {
-        this.event = event;
+    public void setEvents(Set<Event> events) {
+        this.events = events;
     }
 
-    public AppUser getOwner() {
+    public User getOwner() {
         return owner;
     }
 
-    public void setOwner(AppUser owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 
@@ -97,26 +83,5 @@ public class Wishlist {
 
     public void setPresents(Set<Present> presents) {
         this.presents = presents;
-    }
-
-    public Boolean addPresent(Present present){
-        return presents.add(present);
-    }
-
-    public Boolean removePresent(Present present){
-        return presents.remove(present);
-    }
-
-    @Override
-    public String toString() {
-        return "Wishlist{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", size=" + size +
-                ", event=" + event +
-                ", owner=" + owner +
-                ", presents=" + presents +
-                '}';
     }
 }

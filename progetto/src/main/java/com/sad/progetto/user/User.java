@@ -1,45 +1,23 @@
-package com.sad.progetto.appUser;
+package com.sad.progetto.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sad.progetto.friendship.Friendship;
 import com.sad.progetto.event.Event;
-import com.sad.progetto.wishlist.Wishlist;
-import jakarta.persistence.*;
 
 import java.util.Set;
 
-@Entity
-public class AppUser {
-    @Id
-    @SequenceGenerator(name="userSequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSequence")
+public class User {
     private Long id;
     private String username;
     private String email;
     private String password;
-    @OneToMany
-    @JsonIgnore
     private Set<Friendship> friendships;
-    @OneToMany
-    @JsonIgnore
     private Set<Event> organizedEvents;
-    @ManyToMany
-    @JsonIgnore
     private Set<Event> events;
-    @OneToMany
-    @JsonIgnore
-    private Set<Wishlist> wishlists;
 
-    public AppUser() {
+    public User() {
     }
 
-    public AppUser(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
-
-    public AppUser(String username, String email, String password, Set<Friendship> friendships, Set<Event> organizedEvents, Set<Event> events) {
+    public User(String username, String email, String password, Set<Friendship> friendships, Set<Event> organizedEvents, Set<Event> events) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -113,47 +91,4 @@ public class AppUser {
                 ", password='" + password + '\'' +
                 '}';
     }
-
-    public Set<Wishlist> getWishlists() {
-        return wishlists;
-    }
-
-    public void setWishlists(Set<Wishlist> wishlists) {
-        this.wishlists = wishlists;
-    }
-
-
-    public Boolean addOrganizedEvent(Event organizedEvent){
-        return organizedEvents.add(organizedEvent);
-    }
-
-    public Boolean removeOrganizedEvent(Event organizedEvent){
-        return organizedEvents.remove(organizedEvent);
-    }
-
-    public Boolean addEvent(Event event){
-        return events.add(event);
-    }
-
-    public Boolean removeEvent(Event event){
-        return events.remove(event);
-    }
-
-    public Boolean addWishlist(Wishlist wishlist){
-        return wishlists.add(wishlist);
-    }
-
-    public Boolean removeWishlist(Wishlist wishlist){
-        return wishlists.remove(wishlist);
-    }
-
-    public Boolean addFriendship(Friendship friendship){
-        return friendships.add(friendship);
-    }
-
-    public Boolean removeFriendship(Friendship friendship){
-        return friendships.remove(friendship);
-    }
-
-
 }

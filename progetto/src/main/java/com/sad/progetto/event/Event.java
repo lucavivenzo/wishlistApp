@@ -1,74 +1,46 @@
 package com.sad.progetto.event;
 
-import com.sad.progetto.appUser.AppUser;
-import com.sad.progetto.wishlist.Wishlist;
-import jakarta.persistence.*;
+import com.sad.progetto.user.User;
 
 import java.time.LocalDate;
 import java.util.Set;
-@Entity
+
 public class Event {
-    @Id
-    @SequenceGenerator(name="eventSequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "eventSequence")
     private Long id;
     private String name;
     private String description;
     private LocalDate date;
     private String eventAddress;
-    @ManyToOne
-    @JoinColumn
-    private AppUser organizer;
-    @ManyToMany
-    private Set<AppUser> guests;
-    @OneToOne
-    private Wishlist wishlist;
+    private User organizer;
+    private Set<User> guests;
 
 
 
     public Event() {
     }
 
-    public Event(String name, String description, LocalDate date, String eventAddress, AppUser organizer, Wishlist wishlist) {
-        this.name = name;
-        this.description = description;
-        this.date = date;
-        this.eventAddress = eventAddress;
-        this.organizer = organizer;
-        this.wishlist = wishlist;
-    }
-
-    public Event(String name, String description, LocalDate date, String eventAddress, AppUser organizer, Set<AppUser> guests, Wishlist wishlist) {
+    public Event(String name, String description, LocalDate date, String eventAddress, User organizer, Set<User> guests) {
         this.name = name;
         this.description = description;
         this.date = date;
         this.eventAddress = eventAddress;
         this.organizer = organizer;
         this.guests = guests;
-        this.wishlist = wishlist;
     }
 
-    public Wishlist getWishlist() {
-        return wishlist;
-    }
-
-    public void setWishlist(Wishlist wishlist) {
-        this.wishlist = wishlist;
-    }
-
-    public AppUser getOrganizer() {
+    public User getOrganizer() {
         return organizer;
     }
 
-    public void setOrganizer(AppUser organizer) {
+    public void setOrganizer(User organizer) {
         this.organizer = organizer;
     }
 
-    public Set<AppUser> getGuests() {
+    public Set<User> getGuests() {
         return guests;
     }
 
-    public void setGuests(Set<AppUser> guests) {
+    public void setGuests(Set<User> guests) {
         this.guests = guests;
     }
 
@@ -110,14 +82,6 @@ public class Event {
 
     public void setEventAddress(String eventAddress) {
         this.eventAddress = eventAddress;
-    }
-
-    public Boolean addGuest(AppUser guest){
-        return guests.add(guest);
-    }
-
-    public Boolean removeGuest(AppUser guest){
-        return guests.remove(guest);
     }
 
 

@@ -1,30 +1,21 @@
 package com.sad.progetto.friendship;
 
-import com.sad.progetto.appUser.AppUser;
-import jakarta.persistence.*;
+import com.sad.progetto.user.User;
 
 import java.time.LocalDate;
 
-@Entity
 public class Friendship {
-    @Id
-    @SequenceGenerator(name="friendshipSequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "friendshipSequence")
     private Long id;
-    @ManyToOne
-    @JoinColumn
-    private AppUser appUser1;
-    @ManyToOne
-    @JoinColumn
-    private AppUser appUser2;
+    private User user1;
+    private User user2;
     private LocalDate friendshipDate;
 
     public Friendship() {
     }
 
-    public Friendship(AppUser appUser1, AppUser appUser2, LocalDate friendshipDate) {
-        this.appUser1 = appUser1;
-        this.appUser2 = appUser2;
+    public Friendship(User user1, User user2, LocalDate friendshipDate) {
+        this.user1 = user1;
+        this.user2 = user2;
         this.friendshipDate = friendshipDate;
     }
 
@@ -36,20 +27,20 @@ public class Friendship {
         this.id = id;
     }
 
-    public AppUser getUser1() {
-        return appUser1;
+    public User getUser1() {
+        return user1;
     }
 
-    public void setUser1(AppUser appUser1) {
-        this.appUser1 = appUser1;
+    public void setUser1(User user1) {
+        this.user1 = user1;
     }
 
-    public AppUser getUser2() {
-        return appUser2;
+    public User getUser2() {
+        return user2;
     }
 
-    public void setUser2(AppUser appUser2) {
-        this.appUser2 = appUser2;
+    public void setUser2(User user2) {
+        this.user2 = user2;
     }
 
     public LocalDate getFriendshipDate() {
