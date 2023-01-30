@@ -23,7 +23,7 @@ public class AppUser {
     @OneToMany
     @JsonIgnore
     private Set<Event> organizedEvents;
-    @OneToMany
+    @ManyToMany
     @JsonIgnore
     private Set<Event> events;
     @OneToMany
@@ -31,6 +31,12 @@ public class AppUser {
     private Set<Wishlist> wishlists;
 
     public AppUser() {
+    }
+
+    public AppUser(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
     public AppUser(String username, String email, String password, Set<Friendship> friendships, Set<Event> organizedEvents, Set<Event> events) {
@@ -116,9 +122,38 @@ public class AppUser {
         this.wishlists = wishlists;
     }
 
-    public AppUser(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
+
+    public Boolean addOrganizedEvent(Event organizedEvent){
+        return organizedEvents.add(organizedEvent);
     }
+
+    public Boolean removeOrganizedEvent(Event organizedEvent){
+        return organizedEvents.remove(organizedEvent);
+    }
+
+    public Boolean addEvent(Event event){
+        return events.add(event);
+    }
+
+    public Boolean removeEvent(Event event){
+        return events.remove(event);
+    }
+
+    public Boolean addWishlist(Wishlist wishlist){
+        return wishlists.add(wishlist);
+    }
+
+    public Boolean removeWishlist(Wishlist wishlist){
+        return wishlists.remove(wishlist);
+    }
+
+    public Boolean addFriendship(Friendship friendship){
+        return friendships.add(friendship);
+    }
+
+    public Boolean removeFriendship(Friendship friendship){
+        return friendships.remove(friendship);
+    }
+
+
 }

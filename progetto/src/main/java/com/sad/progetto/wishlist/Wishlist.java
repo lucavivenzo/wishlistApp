@@ -1,5 +1,6 @@
 package com.sad.progetto.wishlist;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sad.progetto.event.Event;
 import com.sad.progetto.present.Present;
 import com.sad.progetto.appUser.AppUser;
@@ -22,15 +23,15 @@ public class Wishlist {
     @JoinColumn
     private AppUser owner;
     @OneToMany
+    @JsonIgnore
     private Set<Present> presents;
 
     public Wishlist() {
     }
 
-    public Wishlist(String name, String description, Integer size) {
+    public Wishlist(String name, String description) {
         this.name = name;
         this.description = description;
-        this.size = size;
     }
 
     public Wishlist(String name, String description, Integer size, Event event, AppUser owner, Set<Present> presents) {
@@ -96,5 +97,26 @@ public class Wishlist {
 
     public void setPresents(Set<Present> presents) {
         this.presents = presents;
+    }
+
+    public Boolean addPresent(Present present){
+        return presents.add(present);
+    }
+
+    public Boolean removePresent(Present present){
+        return presents.remove(present);
+    }
+
+    @Override
+    public String toString() {
+        return "Wishlist{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", size=" + size +
+                ", event=" + event +
+                ", owner=" + owner +
+                ", presents=" + presents +
+                '}';
     }
 }

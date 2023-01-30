@@ -19,7 +19,7 @@ public class Event {
     @ManyToOne
     @JoinColumn
     private AppUser organizer;
-    @OneToMany
+    @ManyToMany
     private Set<AppUser> guests;
     @OneToOne
     private Wishlist wishlist;
@@ -27,6 +27,15 @@ public class Event {
 
 
     public Event() {
+    }
+
+    public Event(String name, String description, LocalDate date, String eventAddress, AppUser organizer, Wishlist wishlist) {
+        this.name = name;
+        this.description = description;
+        this.date = date;
+        this.eventAddress = eventAddress;
+        this.organizer = organizer;
+        this.wishlist = wishlist;
     }
 
     public Event(String name, String description, LocalDate date, String eventAddress, AppUser organizer, Set<AppUser> guests, Wishlist wishlist) {
@@ -101,6 +110,14 @@ public class Event {
 
     public void setEventAddress(String eventAddress) {
         this.eventAddress = eventAddress;
+    }
+
+    public Boolean addGuest(AppUser guest){
+        return guests.add(guest);
+    }
+
+    public Boolean removeGuest(AppUser guest){
+        return guests.remove(guest);
     }
 
 
