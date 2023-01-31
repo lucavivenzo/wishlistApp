@@ -42,4 +42,13 @@ public class EventService {
         wishlistRepository.save(wishlist);
         return event;
     }
+
+    public void deleteEvent(Long id){
+        if (eventRepository.findById(id).isPresent()){
+            Event event=eventRepository.findById(id).get();
+            AppUser organizer=event.getOrganizer();
+            Wishlist wishlist=event.getWishlist();
+            organizer.removeOrganizedEvent(event);
+        }
+    }
 }
