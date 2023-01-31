@@ -1,5 +1,6 @@
 package com.sad.progetto.config;
 
+import com.sad.progetto.appUser.AppUserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,8 +25,13 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private final UserDetailsService userDetailsService;
+    private final AppUserRepository appUserRepository ;
     private final JwtUtils jwtUtils;
+
+//    public JwtAuthFilter(UserDetailsService userDetailsService, JwtUtils jwtUtils) {
+//        this.userDetailsService = userDetailsService;
+//        this.jwtUtils = jwtUtils;
+//    }
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -43,7 +49,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         jwtToken = authHeader.substring(7);
         userEmail = jwtUtils.extractUsername(jwtToken);
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication()==null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+            UserDetails userDetails = appUserRepository.findUserByEmail(userEmail);
             if (jwtUtils.isTokenValid(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

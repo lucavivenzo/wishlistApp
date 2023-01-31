@@ -9,8 +9,9 @@ import java.util.Map;
 import java.util.function.Function;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
+@Component
 public class JwtUtils {
 
     private String jwtSigningJey = "secret";

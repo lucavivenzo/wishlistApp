@@ -1,5 +1,7 @@
 package com.sad.progetto.controller;
 
+import com.sad.progetto.appUser.AppUser;
+import com.sad.progetto.appUser.AppUserRepository;
 import com.sad.progetto.config.JwtUtils;
 import com.sad.progetto.dto.AuthenticationRequest;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
-    private UserDetailsService userDetailsService;
+    private final AppUserRepository appUserRepository;
     private final JwtUtils jwtUtils;
+
     @PostMapping("/authenticate")
     public ResponseEntity<String> authenticate (
             @RequestBody AuthenticationRequest request
@@ -28,7 +31,7 @@ public class AuthenticationController {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
-        final UserDetails user = userDetailsService.loadUserByUsername(request.getEmail());
+        final UserDetails user = appUserRepository.findUserByEmail(request.getEmail());
         if (user != null) {
             return ResponseEntity.ok(jwtUtils.generateToken(user));
         }
