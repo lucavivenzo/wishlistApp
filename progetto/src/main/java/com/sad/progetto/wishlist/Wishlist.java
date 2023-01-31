@@ -22,7 +22,7 @@ public class Wishlist {
     @ManyToOne
     @JoinColumn
     private AppUser owner;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     @JsonIgnore
     private Set<Present> presents;
 

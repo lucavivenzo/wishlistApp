@@ -1,5 +1,6 @@
 package com.sad.progetto.event;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sad.progetto.appUser.AppUser;
 import com.sad.progetto.wishlist.Wishlist;
 import jakarta.persistence.*;
@@ -21,21 +22,13 @@ public class Event {
     private AppUser organizer;
     @ManyToMany
     private Set<AppUser> guests;
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JsonIgnore
     private Wishlist wishlist;
 
 
 
     public Event() {
-    }
-
-    public Event(String name, String description, LocalDate date, String eventAddress, AppUser organizer, Wishlist wishlist) {
-        this.name = name;
-        this.description = description;
-        this.date = date;
-        this.eventAddress = eventAddress;
-        this.organizer = organizer;
-        this.wishlist = wishlist;
     }
 
     public Event(String name, String description, LocalDate date, String eventAddress, AppUser organizer, Set<AppUser> guests, Wishlist wishlist) {
@@ -45,6 +38,15 @@ public class Event {
         this.eventAddress = eventAddress;
         this.organizer = organizer;
         this.guests = guests;
+        this.wishlist = wishlist;
+    }
+
+    public Event(String name, String description, LocalDate date, String eventAddress, AppUser organizer, Wishlist wishlist) {
+        this.name = name;
+        this.description = description;
+        this.date = date;
+        this.eventAddress = eventAddress;
+        this.organizer = organizer;
         this.wishlist = wishlist;
     }
 

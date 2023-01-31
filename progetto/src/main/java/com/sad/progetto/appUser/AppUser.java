@@ -17,16 +17,16 @@ public class AppUser {
     private String username;
     private String email;
     private String password;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     @JsonIgnore
     private Set<Friendship> friendships;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     @JsonIgnore
     private Set<Event> organizedEvents;
     @ManyToMany
     @JsonIgnore
     private Set<Event> events;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     @JsonIgnore
     private Set<Wishlist> wishlists;
 
