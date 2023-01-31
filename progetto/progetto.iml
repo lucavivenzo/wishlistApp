@@ -109,5 +109,6 @@
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:6.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:6.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.24" level="project" />
+    <orderEntry type="library" name="Maven: javax.xml.bind:jaxb-api-osgi:2.2.7" level="project" />
   </component>
 </module>

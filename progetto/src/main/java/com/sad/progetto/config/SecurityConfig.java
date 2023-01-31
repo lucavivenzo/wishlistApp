@@ -92,12 +92,12 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
             @Override
-            public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//                      AppUser appUser = appUserRepository.findUserByEmail(email);
-//
-//                      User user = new User(appUser.getEmail(), appUser.getPassword(), Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
-//                      return user;
-                return appUserRepository.findUserByEmail(email);
+            public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException { //TODO: capire se viene usata
+                AppUser appUser = appUserRepository.findUserByEmail(email);
+
+                User user = new User(appUser.getEmail(), appUser.getPassword(), Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
+                return user;
+                //return appUserRepository.findUserByEmail(email);
             }
         };
     }
