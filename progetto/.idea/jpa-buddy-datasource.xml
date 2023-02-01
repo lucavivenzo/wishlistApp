@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpbDataSourceConfig">
+    <data-sources>
+      <data-source id="4df1af49-6929-4f4f-a1dd-2be2208674ec" name="progetto" url="jdbc:postgresql://localhost/wishlistapp" driverClass="org.postgresql.Driver" />
+    </data-sources>
+  </component>
+</project>
