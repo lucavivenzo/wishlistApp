@@ -1,10 +1,7 @@
 package com.sad.progetto.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -22,4 +19,11 @@ public class EventController {
         else
             return eventService.createEvent(null,name,description,date,eventAddress);
     }
+
+    @GetMapping(path="delete/{eventId}")
+    public void deleteEvent(@PathVariable("eventId") Long id){
+        eventService.deleteEvent(id);
+        return;
+    }
+
 }

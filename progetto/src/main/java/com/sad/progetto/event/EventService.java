@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class EventService {
@@ -41,5 +43,23 @@ public class EventService {
         appUserRepository.save(organizer);
         wishlistRepository.save(wishlist);
         return event;
+    }
+
+    public void deleteEvent(Long id){
+        if (eventRepository.findById(id).isPresent()){
+            Event event=eventRepository.findById(id).get();
+            AppUser organizer=event.getOrganizer();
+            Set<AppUser> guests=event.getGuests();
+            Wishlist wishlist=event.getWishlist();
+            organizer.removeOrganizedEvent(event);
+            appUserRepository.save(organizer);
+            for(AppUser user : guests){
+                user.removeEvent(event);
+                appUserRepository.save(user);
+            }
+            wishlist.setEvent(null);
+            wishlistRepository.save(wishlist);
+            eventRepository.delete(event);
+        }
     }
 }
