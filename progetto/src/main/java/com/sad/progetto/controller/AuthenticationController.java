@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/login")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
@@ -30,7 +30,7 @@ public class AuthenticationController {
     private final AppUserRepository appUserRepository;
     private final JwtUtils jwtUtils;
 
-    @PostMapping("/authenticate")
+    @PostMapping
     public ResponseEntity<String> authenticate (
             @RequestBody AuthenticationRequest request
     ) {

@@ -41,7 +41,7 @@ public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
     private final AppUserRepository appUserRepository;
 
-    //private PasswordEncoder passwordEncoder; // TODO vedere di mettere sto coso. lui non lo fa vedere nel video e mette no-op, ovvero non cifra
+    private PasswordEncoder passwordEncoder; // TODO vedere di mettere sto coso. lui non lo fa vedere nel video e mette no-op, ovvero non cifra
 
 
 //    private final static List<UserDetails> APPLICATION_USERS = Arrays.asList(
@@ -56,7 +56,7 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .requestMatchers("/**")
+                .requestMatchers("/register","/login")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -84,8 +84,8 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        //return new BCryptPasswordEncoder();
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
+        //return NoOpPasswordEncoder.getInstance();
     }
 
     @Bean

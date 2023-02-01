@@ -21,7 +21,7 @@ public class WishlistService {
     PresentRepository presentRepository;
 
     public Wishlist createWishlist(String name, String description){
-        AppUser appUser=appUserRepository.findById(1L).get();//CAMBIARE OBV
+        AppUser appUser=appUserRepository.findById(2L).get();//CAMBIARE OBV
         System.out.println(appUser.toString());
         Wishlist wishlist=new Wishlist(name,description);
         wishlist.setOwner(appUser);
