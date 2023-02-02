@@ -61,13 +61,14 @@ public class EventService {
             Set<AppUser> guests=event.getGuests();
             Wishlist wishlist=event.getWishlist();
             organizer.removeOrganizedEvent(event);
+            organizer.removeWishlist(wishlist);
             appUserRepository.save(organizer);
             for(AppUser user : guests){
                 user.removeEvent(event);
                 appUserRepository.save(user);
             }
             wishlist.setEvent(null);
-            wishlistRepository.save(wishlist);
+            wishlistRepository.delete(wishlist);
             eventRepository.delete(event);
         }
         else {
