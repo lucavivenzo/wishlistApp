@@ -6,6 +6,7 @@ import com.sad.progetto.wishlist.Wishlist;
 import com.sad.progetto.wishlist.WishlistRepository;
 import com.sad.progetto.wishlist.WishlistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -24,8 +25,9 @@ public class EventService {
 
 
     public Event createEvent(Long wishlistId, String name, String description, String dateString, String eventAddress){
+        String email= SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser organizer=appUserRepository.findUserByEmail(email);
         LocalDate date=LocalDate.parse(dateString);
-        AppUser organizer=appUserRepository.findById(1L).get();//CAMBIARE OBV
         Wishlist wishlist;
         if(wishlistId==null){
             wishlist=new Wishlist("Wishlist dell'evento: "+name,"Wishlist autogenerata per l'evento "+name);
@@ -33,7 +35,12 @@ public class EventService {
             organizer.addWishlist(wishlist);
         }
         else{
-            wishlist=wishlistRepository.findById(wishlistId).get();
+            List<Wishlist> ownedWishlists = wishlistRepository.getAllOwnedWishlistsFromEmail(email);
+            wishlist = ownedWishlists.stream().filter(wishlist1 -> wishlistId.equals(wishlist1.getId())).findFirst().orElse(null);
+            if(wishlist!=null){
+                System.out.println("wishlist non tua o non esistente");
+                return null;
+            }
         }
 
         Event event=new Event(name,description,date,eventAddress,organizer,wishlist);//questa wishlist che abbiamo passato non ha riferimento all'evento, fa niente? la aggiorno dopo, ma c'è bisogno di riaggiornare anche Event? o non c'è bisogno neanche di aggiornare Wishlist?
@@ -46,7 +53,9 @@ public class EventService {
     }
 
     public void deleteEvent(Long id){
-        if (eventRepository.findById(id).isPresent()){
+        String email=SecurityContextHolder.getContext().getAuthentication().getName();
+        List<Long> organizedEvents = eventRepository.findAllOrganizedEventsFromEmail(email);
+        if (organizedEvents.contains(id)){
             Event event=eventRepository.findById(id).get();
             AppUser organizer=event.getOrganizer();
             Set<AppUser> guests=event.getGuests();
@@ -60,6 +69,9 @@ public class EventService {
             wishlist.setEvent(null);
             wishlistRepository.save(wishlist);
             eventRepository.delete(event);
+        }
+        else {
+            System.out.println("evento non tuo o inesistente");
         }
     }
 }

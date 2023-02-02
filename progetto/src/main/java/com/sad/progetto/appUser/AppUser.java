@@ -1,6 +1,7 @@
 package com.sad.progetto.appUser;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sad.progetto.friendship.Friendship;
 import com.sad.progetto.event.Event;
 import com.sad.progetto.wishlist.Wishlist;
@@ -9,6 +10,7 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AppUser {
     @Id
     @SequenceGenerator(name="userSequence", allocationSize = 1)
@@ -16,6 +18,7 @@ public class AppUser {
     private Long id;
     private String username;
     private String email;
+    @JsonIgnore
     private String password;
     @OneToMany(cascade = {CascadeType.ALL})
     @JsonIgnore

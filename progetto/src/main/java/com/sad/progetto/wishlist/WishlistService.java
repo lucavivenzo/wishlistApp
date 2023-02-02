@@ -5,6 +5,7 @@ import com.sad.progetto.appUser.AppUserRepository;
 import com.sad.progetto.present.Present;
 import com.sad.progetto.present.PresentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +22,9 @@ public class WishlistService {
     PresentRepository presentRepository;
 
     public Wishlist createWishlist(String name, String description){
-        AppUser appUser=appUserRepository.findById(2L).get();//CAMBIARE OBV
-        System.out.println(appUser.toString());
+        String email=SecurityContextHolder.getContext().getAuthentication().getName();
+        //System.out.println(email);
+        AppUser appUser=appUserRepository.findUserByEmail(email);
         Wishlist wishlist=new Wishlist(name,description);
         wishlist.setOwner(appUser);
         appUser.addWishlist(wishlist);
@@ -32,7 +34,9 @@ public class WishlistService {
     }
 
     public void removeWishlist(Long id){
-        if (wishlistRepository.findById(id).isPresent()){
+        String email=SecurityContextHolder.getContext().getAuthentication().getName();
+        List<Long> ownedWishlists = wishlistRepository.findAllOwnedWishlistsFromEmail(email);
+        if (ownedWishlists.contains(id)){
             Wishlist wishlist=wishlistRepository.findById(id).get();
             AppUser user=wishlist.getOwner();
             System.out.println(user.toString());
@@ -44,44 +48,54 @@ public class WishlistService {
 
     }
 
-    public Wishlist getWishlist(Long id){
+    public Wishlist getWishlist(Long id){//restituisce wishlist tue o dei tuoi amici
         if(wishlistRepository.findById(id).isPresent())
             return wishlistRepository.findById(id).get();
         else return null;
     }
 
     public List<Wishlist> getAllWishlists(){
-        return wishlistRepository.findAll();
+        String email=SecurityContextHolder.getContext().getAuthentication().getName();
+        return wishlistRepository.getAllOwnedWishlistsFromEmail(email);
     }
 
     public Wishlist addPresent(Long wishlistId, String name, String description, String link){
-        Optional<Wishlist> optionalWishlist=wishlistRepository.findById(wishlistId);
-        if(optionalWishlist.isPresent()) {
-            Wishlist wishlist = optionalWishlist.get();
+        String email=SecurityContextHolder.getContext().getAuthentication().getName();
+        List<Wishlist> ownedWishlists = wishlistRepository.getAllOwnedWishlistsFromEmail(email);
+        Wishlist wishlist = ownedWishlists.stream().filter(wishlist1 -> wishlistId.equals(wishlist1.getId())).findFirst().orElse(null);
+        if(wishlist!=null){
             Present present = new Present(name, description, link, wishlist);
             wishlist.addPresent(present);
             presentRepository.save(present);
             return wishlistRepository.save(wishlist);
         }
-        else return null;
+        else {
+            return null;
+        }
 
     }
 
     public void removePresent(Long wishlistId, Long presentId){
-        Optional<Wishlist> optionalWishlist=wishlistRepository.findById(wishlistId);
-        Optional<Present> optionalPresent=presentRepository.findById(presentId);
-        if (optionalPresent.isPresent() && optionalWishlist.isPresent()){
-            Present present=optionalPresent.get();
-            Wishlist wishlist=present.getWishlist();//funziona sta cosa? sì, quindi possiamo cancellare anche senza l'id della wishlist teoricamente
-            System.out.println(wishlist.toString());
-            wishlist.removePresent(present);
-            presentRepository.delete(present);
-            wishlistRepository.save(wishlist);
+        String email=SecurityContextHolder.getContext().getAuthentication().getName();
+        List<Wishlist> ownedWishlists = wishlistRepository.getAllOwnedWishlistsFromEmail(email);
+        Wishlist wishlist = ownedWishlists.stream().filter(wishlist1 -> wishlistId.equals(wishlist1.getId())).findFirst().orElse(null);
+        if(wishlist!=null){//se wishlist tua ed esiste
+            Optional<Present> optionalPresent=presentRepository.findById(presentId);
+            if (optionalPresent.isPresent() && optionalPresent.get().getWishlist().getId()==wishlistId){
+                Present present=optionalPresent.get();
+                System.out.println(wishlist.toString());
+                wishlist.removePresent(present);
+                presentRepository.delete(present);
+                wishlistRepository.save(wishlist);
+            }
         }
-        return;
+        else{
+           //errore
+        }
+
     }
 
-    public List<Present> getAllPresents(Long wishlistId){
+    public List<Present> getAllPresents(Long wishlistId){//devono poterla fare gli amici
         Wishlist wishlist=wishlistRepository.findById(wishlistId).get();
         return presentRepository.findByWishlist(wishlist);
     }

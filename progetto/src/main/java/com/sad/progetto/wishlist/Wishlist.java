@@ -1,6 +1,7 @@
 package com.sad.progetto.wishlist;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sad.progetto.event.Event;
 import com.sad.progetto.present.Present;
 import com.sad.progetto.appUser.AppUser;
@@ -18,6 +19,7 @@ public class Wishlist {
     private String description;
     private Integer size;
     @OneToOne
+    @JoinColumn
     private Event event;
     @ManyToOne
     @JoinColumn
