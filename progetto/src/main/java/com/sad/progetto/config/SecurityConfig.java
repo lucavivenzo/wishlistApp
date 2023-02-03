@@ -67,6 +67,10 @@ public class SecurityConfig {
                 .and()
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .logout().logoutUrl("/logout")
+                .logoutSuccessUrl("/login.html")
+                .invalidateHttpSession(true)
+                .deleteCookies("access_token","JSESSIONID")
                 ;
         return http.build();
     }
