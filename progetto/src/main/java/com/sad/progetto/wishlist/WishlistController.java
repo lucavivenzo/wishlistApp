@@ -29,7 +29,7 @@ public class WishlistController {
     }
 
     @GetMapping(path="all")
-    public List<Wishlist> getAllWishlists(){
+    public List<Wishlist> getAllWishlists() {
         return wishlistService.getAllWishlists();
     }
 

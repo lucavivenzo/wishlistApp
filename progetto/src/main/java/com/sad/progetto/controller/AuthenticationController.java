@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -24,19 +25,26 @@ import java.util.Collections;
 @RestController
 @RequestMapping("/login")
 @RequiredArgsConstructor
-public class AuthenticationController {
+public class    AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final AppUserRepository appUserRepository;
     private final JwtUtils jwtUtils;
 
     @PostMapping
-    public ResponseEntity<String> authenticate (
+    public ResponseEntity<String> authenticate  (
             @RequestBody AuthenticationRequest request
     ) {
+
+        try {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-        );
+        ); }
+
+        catch (Exception e) {
+            return ResponseEntity.status(401).body("Login failed");
+        }
+
         final AppUser appUser = appUserRepository.findUserByEmail(request.getEmail());
         if (appUser != null) {
             User user = new User(appUser.getEmail(), appUser.getPassword(), Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
