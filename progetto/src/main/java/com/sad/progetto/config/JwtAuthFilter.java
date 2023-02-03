@@ -4,6 +4,7 @@ import com.sad.progetto.appUser.AppUser;
 import com.sad.progetto.appUser.AppUserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.WebUtils;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -42,17 +44,24 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
-        final String authHeader = request.getHeader(AUTHORIZATION);
+        //final String authHeader = request.getHeader(AUTHORIZATION);
+        System.out.println(request.getHeader(AUTHORIZATION));//temp
+        Cookie cookie = WebUtils.getCookie(request, "access_token");
+        if (cookie == null) {
+            filterChain.doFilter(request,response);
+            return;
+        }
+        System.out.println(cookie.getValue());//temp
+        final String authHeader = cookie.getValue();
         final String userEmail; // TODO capire bene se qua va modificato
         final String jwtToken;
-    System.out.println(request.getHeader(COOKIE));//temp
-        System.out.println(authHeader);//temp
-        if (authHeader == null || !authHeader.startsWith("Bearer")) {
+
+        if (authHeader == null) {
             filterChain.doFilter(request,response);
             return;
         }
 
-        jwtToken = authHeader.substring(7);
+        jwtToken = authHeader;
         userEmail = jwtUtils.extractUsername(jwtToken);
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication()==null) {
             AppUser appUser = appUserRepository.findUserByEmail(userEmail);
