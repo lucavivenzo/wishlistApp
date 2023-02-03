@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpHeaders.COOKIE;
 
 @Component
 @RequiredArgsConstructor
@@ -44,7 +45,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader(AUTHORIZATION);
         final String userEmail; // TODO capire bene se qua va modificato
         final String jwtToken;
-
+    System.out.println(request.getHeader(COOKIE));//temp
+        System.out.println(authHeader);//temp
         if (authHeader == null || !authHeader.startsWith("Bearer")) {
             filterChain.doFilter(request,response);
             return;

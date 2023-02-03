@@ -4,7 +4,10 @@ import com.sad.progetto.appUser.AppUser;
 import com.sad.progetto.appUser.AppUserRepository;
 import com.sad.progetto.config.JwtUtils;
 import com.sad.progetto.dto.AuthenticationRequest;
+import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -48,7 +51,10 @@ public class    AuthenticationController {
         final AppUser appUser = appUserRepository.findUserByEmail(request.getEmail());
         if (appUser != null) {
             User user = new User(appUser.getEmail(), appUser.getPassword(), Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
-            return ResponseEntity.ok(jwtUtils.generateToken(user));
+            //return ResponseEntity.ok(jwtUtils.generateToken(user));
+            HttpHeaders headers=new HttpHeaders();
+            headers.add("Set-Cookie","access_token="+jwtUtils.generateToken(user));
+            return new ResponseEntity<String>("",headers, HttpStatus.OK);
         }
         return ResponseEntity.status(400).body("Some error has occurred");
     }
