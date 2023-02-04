@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class FriendshipController {
@@ -31,6 +32,20 @@ public class FriendshipController {
 
     }
 
+    @GetMapping("/deletefriend")
+    public ResponseEntity<String> deleteFriend(@RequestParam("friendId")Long friendId) throws NullPointerException {
+
+        Boolean deleted = friendshipService.deleteFriend(friendId);
+
+        if (deleted) {
+            return ResponseEntity.ok("Friend deleted successfully");
+        }
+        else {
+            return ResponseEntity.status(400).body("Error. Bad request!");
+        }
+
+    }
+
     @GetMapping("/listFriends")
     public ResponseEntity<List<AppUser>> getFriends() {
         List<AppUser> myFriends = friendshipService.getFriends();
@@ -38,9 +53,9 @@ public class FriendshipController {
     }
 
     @GetMapping("/listPendingRequests")
-    public ResponseEntity<List<String>> getPendingRequests() {
-        List<String> pendingRequests = friendshipService.getPendingRequests();
-        return new ResponseEntity<List<String>>(pendingRequests, HttpStatus.OK);
+    public ResponseEntity<List<Map.Entry<AppUser, String>>> getPendingRequests() {
+        List<Map.Entry<AppUser, String>> pendingRequests = friendshipService.getPendingRequests();
+        return new ResponseEntity<List<Map.Entry<AppUser,String>>>(pendingRequests, HttpStatus.OK);
     }
 
     @GetMapping("/setFriendship")

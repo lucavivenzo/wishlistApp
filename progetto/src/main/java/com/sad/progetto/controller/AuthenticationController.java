@@ -33,20 +33,18 @@ public class    AuthenticationController {
     private final JwtUtils jwtUtils;
 
     @PostMapping
-    public ResponseEntity<String> authenticate  (
-            @RequestBody AuthenticationRequest request
-    ) {
+    public ResponseEntity<String> authenticate  (@RequestBody AuthenticationRequest authenticationRequest) {
 
         try {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword())
         ); }
 
         catch (Exception e) {
             return ResponseEntity.status(401).body("Login failed");
         }
 
-        final AppUser appUser = appUserRepository.findUserByEmail(request.getEmail());
+        final AppUser appUser = appUserRepository.findUserByEmail(authenticationRequest.getEmail());
         if (appUser != null) {
             User user = new User(appUser.getEmail(), appUser.getPassword(), Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
             //return ResponseEntity.ok(jwtUtils.generateToken(user));

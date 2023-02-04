@@ -11,13 +11,14 @@ public class AppUserService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public AppUser register(String username, String email, String password) {
+    public Boolean register(String username, String email, String password) {
         if(!checkIfUserExist(email)) {
             AppUser appUser = new AppUser(username, email, passwordEncoder.encode(password));
-            return appUserRepository.save(appUser);
+            appUserRepository.save(appUser);
+            return true;
         }
         else {
-            return null;
+            return false;
         }
     }
 
