@@ -44,14 +44,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
-        //final String authHeader = request.getHeader(AUTHORIZATION);
-        System.out.println(request.getHeader(AUTHORIZATION));//temp
         Cookie cookie = WebUtils.getCookie(request, "access_token");
         if (cookie == null) {
             filterChain.doFilter(request,response);
             return;
         }
-        System.out.println(cookie.getValue());//temp
         final String authHeader = cookie.getValue();
         final String userEmail; // TODO capire bene se qua va modificato
         final String jwtToken;
