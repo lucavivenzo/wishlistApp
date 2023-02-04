@@ -16,6 +16,7 @@ import java.util.List;
 @Repository
 public interface AppUserRepository extends JpaRepository<AppUser, Long> {
      AppUser findUserByEmail(String userEmail);
+     AppUser findUserById(Long id);
 
 //    private final static List<UserDetails> APPLICATION_USERS = Arrays.asList(
 //           new AppUser(

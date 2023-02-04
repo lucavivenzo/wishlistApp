@@ -26,14 +26,4 @@ public class AppUserController {
         return appUserService.register(username, email,password);
     }
 
-//    @GetMapping(path = "/login")
-//    public String login(@RequestParam(name = "email") String email,
-//                        @RequestParam(name = "password") String password) {
-//        AppUser appUser = appUserService.login(email, password);
-//        if (appUser == null)
-//            return null;
-//        return //appUser.getSession();
-//    }
-
-
 }

@@ -17,10 +17,11 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSequence")
     private Long id;
     private String username;
+    @Column(unique=true)
     private String email;
     @JsonIgnore
     private String password;
-    @OneToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JsonIgnore
     private Set<Friendship> friendships;
     @OneToMany(cascade = {CascadeType.ALL})

@@ -11,22 +11,21 @@ public class Friendship {
     @SequenceGenerator(name="friendshipSequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "friendshipSequence")
     private Long id;
-    @ManyToOne
+    @OneToOne//(cascade = {CascadeType.ALL})
     @JoinColumn
     private AppUser appUser1;
-    @ManyToOne
+    @OneToOne//cascade = {CascadeType.ALL})
     @JoinColumn
     private AppUser appUser2;
     private LocalDate friendshipDate;
+    private Integer friendshipState;
 
-    public Friendship() {
-    }
+/*  VALUE FOR FRIENDSHIPSTATE:
 
-    public Friendship(AppUser appUser1, AppUser appUser2, LocalDate friendshipDate) {
-        this.appUser1 = appUser1;
-        this.appUser2 = appUser2;
-        this.friendshipDate = friendshipDate;
-    }
+    0: pending request
+    1: friends
+
+*/
 
     public Long getId() {
         return id;
@@ -36,19 +35,19 @@ public class Friendship {
         this.id = id;
     }
 
-    public AppUser getUser1() {
+    public AppUser getAppUser1() {
         return appUser1;
     }
 
-    public void setUser1(AppUser appUser1) {
+    public void setAppUser1(AppUser appUser1) {
         this.appUser1 = appUser1;
     }
 
-    public AppUser getUser2() {
+    public AppUser getAppUser2() {
         return appUser2;
     }
 
-    public void setUser2(AppUser appUser2) {
+    public void setAppUser2(AppUser appUser2) {
         this.appUser2 = appUser2;
     }
 
@@ -59,4 +58,24 @@ public class Friendship {
     public void setFriendshipDate(LocalDate friendshipDate) {
         this.friendshipDate = friendshipDate;
     }
+
+    public Integer getFriendshipState() {
+        return friendshipState;
+    }
+
+    public void setFriendshipState(Integer friendshipState) {
+        this.friendshipState = friendshipState;
+    }
+
+    public Friendship() {
+    }
+
+    public Friendship(Long id, AppUser appUser1, AppUser appUser2, LocalDate friendshipDate, Integer friendshipState) {
+        this.id = id;
+        this.appUser1 = appUser1;
+        this.appUser2 = appUser2;
+        this.friendshipDate = friendshipDate;
+        this.friendshipState = friendshipState;
+    }
 }
+
