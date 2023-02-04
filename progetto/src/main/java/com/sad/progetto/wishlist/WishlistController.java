@@ -13,38 +13,44 @@ public class WishlistController {
     @Autowired
     WishlistService wishlistService;
 
-    @GetMapping(path="create")
-    public Wishlist createWishlist(@RequestParam(name="name") String name, @RequestParam(name="description") String description){
-        return wishlistService.createWishlist(name,description);
+    @GetMapping(path = "create")
+    public Wishlist createWishlist(@RequestParam(name = "name") String name, @RequestParam(name = "description") String description) {
+        return wishlistService.createWishlist(name, description);
     }
 
-    @GetMapping(path="delete")//DA CAMBIARE IN DELETE
-    public void removeWishlist(@RequestParam(name="id") Long id){
+    @GetMapping(path = "delete")//DA CAMBIARE IN DELETE
+    public void removeWishlist(@RequestParam(name = "id") Long id) {
         wishlistService.removeWishlist(id);
     }
 
-    @GetMapping(path="{wishlistId}")
-    public Wishlist getWishlist(@PathVariable("wishlistId") Long id){
+    @GetMapping(path = "{wishlistId}")
+    public Wishlist getWishlist(@PathVariable("wishlistId") Long id) {
         return wishlistService.getWishlist(id);
     }
 
-    @GetMapping(path="all")
+    @GetMapping(path = "all")
     public List<Wishlist> getAllWishlists() {
         return wishlistService.getAllWishlists();
     }
 
-    @GetMapping(path="{wishlistId}/add")
-    public Wishlist addPresent(@PathVariable("wishlistId") Long id, @RequestParam(name="name") String name, @RequestParam(name="description") String description, @RequestParam(name="link") String link){
-        return wishlistService.addPresent(id,name,description,link);
+    @GetMapping(path = "{wishlistId}/add")
+    public Wishlist addPresent(@PathVariable("wishlistId") Long id, @RequestParam(name = "name") String name, @RequestParam(name = "description") String description, @RequestParam(name = "link") String link) {
+        return wishlistService.addPresent(id, name, description, link);
     }
 
-    @GetMapping(path="{wishlistId}/delete/{presentId}")//DA CAMBIARE IN DELETE
-    public void removePresent(@PathVariable("wishlistId") Long wishlistId, @PathVariable("presentId") Long presentId){
-        wishlistService.removePresent(wishlistId,presentId);
+    @GetMapping(path = "{wishlistId}/delete/{presentId}")//DA CAMBIARE IN DELETE
+    public void removePresent(@PathVariable("wishlistId") Long wishlistId, @PathVariable("presentId") Long presentId) {
+        wishlistService.removePresent(wishlistId, presentId);
     }
 
-    @GetMapping(path="{wishlistId}/allpresents")
-    public List<Present> getAllPresents(@PathVariable("wishlistId") Long wishlistId){
+    @GetMapping(path = "{wishlistId}/allpresents")
+    public List<Present> getAllPresents(@PathVariable("wishlistId") Long wishlistId) {
         return wishlistService.getAllPresents(wishlistId);
+    }
+
+
+    @GetMapping("/friendswishlist")
+    public List<Wishlist> getFriendsWishlist() {
+        return wishlistService.getFriendsWishlist();
     }
 }

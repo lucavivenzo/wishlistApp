@@ -95,9 +95,17 @@ public class WishlistService {
 
     }
 
-    public List<Present> getAllPresents(Long wishlistId){//devono poterla fare gli amici
+    public List<Present> getAllPresents(Long wishlistId){   //devono poterla fare gli amici
         Wishlist wishlist=wishlistRepository.findById(wishlistId).get();
         return presentRepository.findByWishlist(wishlist);
+    }
+
+    public List<Wishlist> getFriendsWishlist() {
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
+
+        List<Wishlist> friendsWishlist = wishlistRepository.getAllFriendsWishlistById(currentUser.getId());
+        return friendsWishlist;
     }
 
 

@@ -214,4 +214,21 @@ public class FriendshipService {
         return false;
     }
 
+    public Boolean deleteFriend(Long friendId) {
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
+
+        Friendship friendshipToDelete = friendshipRepository.findByAppUser1AndAppUser2(friendId, currentUser.getId());
+        AppUser friendToDelete = appUserRepository.findUserById(friendId);
+
+        friendToDelete.getFriendships().remove(friendshipToDelete);
+        currentUser.getFriendships().remove(friendshipToDelete);
+
+        appUserRepository.save(friendToDelete);
+        appUserRepository.save(currentUser);
+        friendshipRepository.delete(friendshipToDelete);
+
+        return true;
+    }
+
 }

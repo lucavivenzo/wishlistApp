@@ -31,6 +31,20 @@ public class FriendshipController {
 
     }
 
+    @GetMapping("/deletefriend")
+    public ResponseEntity<String> deleteFriend(@RequestParam("friendId")Long friendId) throws NullPointerException {
+
+        Boolean deleted = friendshipService.deleteFriend(friendId);
+
+        if (deleted) {
+            return ResponseEntity.ok("Friend deleted successfully");
+        }
+        else {
+            return ResponseEntity.status(400).body("Error. Bad request!");
+        }
+
+    }
+
     @GetMapping("/listFriends")
     public ResponseEntity<List<AppUser>> getFriends() {
         List<AppUser> myFriends = friendshipService.getFriends();
