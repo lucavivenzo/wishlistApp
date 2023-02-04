@@ -37,7 +37,7 @@
   </div>
 </nav>
 <main class="container">
-  <div class="row justify-content-around">
+  <div class="row">
     <p></p><p></p>
     <div class="col-3">
       <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
@@ -46,17 +46,17 @@
         <a href="friendsrequests.html" type="button" class="btn btn-primary">Richieste di amicizia</a>
       </div>
     </div>
-    <div class="col-9" id="listaWishlists">
+    <div class="col-9" id="listaAmici">
       <div class="card bg-secondary">
         <!-- put item.userId & item.id below this -->
         <!-- <div class="card-header"></div> -->
 
         <div class="card-body">
           <!-- put item.title below this -->
-          <h5 class="card-title">asda</h5>
+          <a class="card-title" id="nomeUtente" style="font-size: 20px; font-weight: bold"></a>
           <!-- put item.body below this -->
           <p class="card-text"></p>
-          <ul class="list-group list-group-flush"></ul>
+          <a class="btn btn-primary" id="rimuoviAmico">Rimuovi amico</a>
         </div>
       </div>
     </div>
@@ -65,6 +65,7 @@
 
 <script src="logout.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="friends.js"></script>
 
 </body>
 </html>

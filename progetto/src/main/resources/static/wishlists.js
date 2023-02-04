@@ -5,12 +5,13 @@ $(function() {
     url: "wishlist/all",
     success: function(result) {
       $.each(result, function(index, item) {
-        var cards = $(".card:first").clone() //clone first divs
         var id = item.id;
         var name = item.name;
         var description = item.description;
         var evento = item.evento;
         var presents = item.presents;
+        document.getElementById('nomeWishlist').setAttribute("href","wishlist.html?id="+id);
+        var cards = $(".card:first").clone() //clone first divs
         //add values inside divs
         //$(cards).find(".card-header").html(name);
         $(cards).find(".card-title").html(name);
@@ -19,7 +20,7 @@ $(function() {
             $(cards).find(".list-group").append("<li class='list-group-item'>"+item2.name+" "+item2.description+" "+item2.link+"</li>");
         })
         $(cards).show() //show cards
-        $(cards).appendTo($(".container")) //append to container
+        $(cards).appendTo($("#listaWishlists")) //append to container
       });
     }
   });
