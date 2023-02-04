@@ -25,7 +25,6 @@ public class Wishlist {
     @JoinColumn
     private AppUser owner;
     @OneToMany(cascade = {CascadeType.ALL})
-    @JsonIgnore
     private Set<Present> presents;
 
     public Wishlist() {

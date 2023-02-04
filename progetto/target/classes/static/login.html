@@ -11,47 +11,41 @@
 <body>
 <nav class="navbar navbar-dark fixed-top bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">WishlistApp</a>
+    <a class="navbar-brand" href="login.html">WishlistApp</a>
   </div>
 </nav>
 <main class="container">
   <div class="row">
     <div class="col-sm-5">
-      <form>
-<!--        <img class="mb-4" src="a.png" alt="" width="72" height="57">-->
-        <h1 class="h3 mb-3 fw-normal">Accedi</h1>
-
-        <div class="form-floating">
-          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-          <label for="floatingInput">Indirizzo Email</label>
-        </div>
-        <div class="form-floating">
-          <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-          <label for="floatingPassword">Password</label>
-        </div>
-        <button class="w-100 btn btn-lg btn-primary" onclick="login()">Log in</button>
-      </form>
+      <img class="mb-4" src="a.png" alt="" width="72" height="57">
+      <h1 class="h3 mb-3 fw-normal">Accedi</h1>
+      <div class="form-floating">
+        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+        <label for="floatingInput">Indirizzo Email</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+      </div>
+      <button type="button" class="w-100 btn btn-lg btn-primary" onclick="login()">Log in</button>
     </div>
     <div class="col-sm-1 middle-border"></div>
     <div class="col-sm-1"></div>
-
     <div class="col-sm-5">
-      <form>
-        <h1 class="h3 mb-3 fw-normal">Registrati</h1>
-        <div class="form-floating">
-          <input type="text" class="form-control" id="floatingUsername" placeholder="Username">
-          <label for="floatingUsername">Username</label>
-        </div>
-        <div class="form-floating">
-          <input type="email" class="form-control" id="floatingInputRegister" placeholder="name@example.com">
-          <label for="floatingInput">Indirizzo Email</label>
-        </div>
-        <div class="form-floating">
-          <input type="password" class="form-control" id="floatingPasswordRegister" placeholder="Password">
-          <label for="floatingPassword">Password</label>
-        </div>
-        <button class="w-100 btn btn-lg btn-primary">Log in</button>
-      </form>
+      <h1 class="h3 mb-3 fw-normal">Registrati</h1>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="floatingUsername" placeholder="Username">
+        <label for="floatingUsername">Username</label>
+      </div>
+      <div class="form-floating">
+        <input type="email" class="form-control" id="floatingInputRegister" placeholder="name@example.com">
+        <label for="floatingInput">Indirizzo Email</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPasswordRegister" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+      </div>
+      <button type="button" class="w-100 btn btn-lg btn-primary" onclick="register()">Registrati</button>
     </div>
   </div>
 </main>

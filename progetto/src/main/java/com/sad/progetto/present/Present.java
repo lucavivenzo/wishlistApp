@@ -1,5 +1,6 @@
 package com.sad.progetto.present;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sad.progetto.wishlist.Wishlist;
 import jakarta.persistence.*;
 
@@ -14,6 +15,7 @@ public class Present {
     private String link;
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private Wishlist wishlist;
 
     public Present() {

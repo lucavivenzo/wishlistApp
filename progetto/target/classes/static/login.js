@@ -18,14 +18,37 @@ function login(){
         async: false,
         success: function(result, textStatus, errorThrown) {//result è il token
             if(textStatus=='success'){
-                alert("Accesso effettuato")
-                console.log(result)//è il token
-                //store token(?)
+                alert('ok')
+                window.location.replace('index.html');
+                return false;
             }
             else {
                 alert("Email o password errate. Riprovare.")
             }
         },
         error: function(){alert("Email o password errate. Riprovare.")}
+    });
+}
+
+function register(){
+    if(!usernameRegister.value) {window.alert('Inserire un nome utente'); return}
+    if(!emailRegister.value) {window.alert('Inserire una email'); return}
+    if(!passwordRegister.value) {window.alert('Inserire una password'); return}
+
+    $.ajax({
+        url: '/register',
+        type: 'GET',
+        data: {username:usernameRegister.value, email:emailRegister.value, password:passwordRegister.value},
+        dataType: 'text',
+        async: false,
+        success: function(result, textStatus, errorThrown) {//result è il token
+            if(textStatus=='success'){
+                alert("Registrazione effettuata. Effettuare il login.")
+            }
+            else {
+                alert("Registrazione fallita. Riprovare.")
+            }
+        },
+        error: function(){alert("Registrazione fallita. Riprovare.")}
     });
 }
