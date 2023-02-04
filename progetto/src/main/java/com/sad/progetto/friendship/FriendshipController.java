@@ -26,7 +26,7 @@ public class FriendshipController {
             return ResponseEntity.ok("Friend added. Waiting for response.");
         }
         else {
-            return ResponseEntity.ok("Friend not added");
+            return ResponseEntity.status(400).body("Error. Bad request!");
         }
 
     }
@@ -41,6 +41,28 @@ public class FriendshipController {
     public ResponseEntity<List<String>> getPendingRequests() {
         List<String> pendingRequests = friendshipService.getPendingRequests();
         return new ResponseEntity<List<String>>(pendingRequests, HttpStatus.OK);
+    }
+
+    @GetMapping("/setFriendship")
+    public ResponseEntity<String> setFriendship(@RequestParam("accept")Boolean set, @RequestParam("friendId")Long friendId) {
+
+        if(set) {
+            if (friendshipService.acceptFriendshipRequest(friendId)) {
+                return ResponseEntity.ok("Friend added successfully");
+            }
+            else {
+                return ResponseEntity.status(400).body("No friendship request pending");
+            }
+        }
+        else {
+            if (friendshipService.declineFriendshipRequest(friendId)) {
+                return ResponseEntity.ok("Friendship request declined");
+            }
+            else {
+                return ResponseEntity.status(400).body("No friendship request pending");
+            }
+        }
+
     }
 
 }

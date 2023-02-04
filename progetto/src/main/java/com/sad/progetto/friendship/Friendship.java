@@ -11,10 +11,10 @@ public class Friendship {
     @SequenceGenerator(name="friendshipSequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "friendshipSequence")
     private Long id;
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne//(cascade = {CascadeType.ALL})
     @JoinColumn
     private AppUser appUser1;
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne//cascade = {CascadeType.ALL})
     @JoinColumn
     private AppUser appUser2;
     private LocalDate friendshipDate;
