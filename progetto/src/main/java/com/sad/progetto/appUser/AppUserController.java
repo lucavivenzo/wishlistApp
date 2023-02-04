@@ -1,9 +1,9 @@
 package com.sad.progetto.appUser;
 
+import com.sad.progetto.dto.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AppUserController {
@@ -13,17 +13,32 @@ public class AppUserController {
     @Autowired
     AppUserService appUserService;
 
-    @GetMapping(path="temp/usernew")
-    public AppUser boh(){
-        AppUser utente=new AppUser("Mertens","mertens@napoli", "napolipersempre");
-        return repository.save(utente);
-    }
-
     @GetMapping("/register")
-    public AppUser register(@RequestParam (name = "username") String username,
+    public ResponseEntity<String> register(@RequestParam (name = "username") String username,
                             @RequestParam(name = "email") String email,
                             @RequestParam(name = "password") String password) {
-        return appUserService.register(username, email,password);
+        Boolean status = appUserService.register(username, email,password);
+
+        if (status) {
+            return ResponseEntity.ok("Registered");
+        }
+        else {
+            return ResponseEntity.status(400).body("Error!");
+        }
     }
+
+
+    //  TODO: REGISTER DEFINITIVA CON LA POST, CANCELLARE L'ALTRA
+    /*@PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
+        Boolean status = appUserService.register(registerRequest.getUsername(), registerRequest.getEmail(), registerRequest.getPassword());
+
+        if (status) {
+            return ResponseEntity.ok("Registered");
+        }
+        else {
+            return ResponseEntity.status(400).body("Error!");
+        }*/
+
 
 }
