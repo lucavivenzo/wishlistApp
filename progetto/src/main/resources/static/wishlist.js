@@ -1,13 +1,6 @@
 let url = new URL(window.location.href);
 let pageId = url.searchParams.get("id");
 
-let nomeR = document.getElementsByName('inputNome')
-let descrizioneR = document.getElementsByName('inputDescrizione')
-let linkR = document.getElementsByName('inputLink')
-
-console.log(nomeR)
-console.log(descrizioneR)
-console.log(linkR)
 
 $(function() {
     //hide first div or remove after append using `$(".card:first").remove()`
@@ -35,18 +28,20 @@ $(function() {
     });
   });
 
+
   function addPresent(){
+    let nomeR = document.getElementsByName('inputNome').item(1)
+    let descrizioneR = document.getElementsByName('inputDescrizione').item(1)
+    let linkR = document.getElementsByName('inputLink').item(1)
     if(!nomeR.value) {window.alert('Inserire il nome del regalo'); return}
     if(!descrizioneR.value) {window.alert('Inserire una descrizione del regalo'); return}
     if(!linkR.value) {window.alert('Inserire un link di acquisto'); return}
 
     $.ajax({
-        url: 'wishlist/'+pageId,
+        url: 'wishlist/'+pageId+"/add",
         type: 'GET',
         data: {name:nomeR.value, description:descrizioneR.value, link:linkR.value},
-        dataType: 'text',
-        async: false,
-        success: function(result, textStatus, errorThrown) {//result è il token
+        success: function(result, textStatus, errorThrown) {
             if(textStatus=='success'){
                 window.location.reload();
             }

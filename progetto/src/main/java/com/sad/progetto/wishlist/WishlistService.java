@@ -48,7 +48,7 @@ public class WishlistService {
 
     }
 
-    public Wishlist getWishlist(Long id){//restituisce wishlist tue o dei tuoi amici
+    public Wishlist getWishlist(Long id){//TODO: dovrebbe restituire wishlist tue o dei tuoi amici
         if(wishlistRepository.findById(id).isPresent())
             return wishlistRepository.findById(id).get();
         else return null;

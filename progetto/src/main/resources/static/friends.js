@@ -8,7 +8,7 @@ $(function() {
           var id = item.id;
           var username = item.username;
           var email = item.email;
-          document.getElementById('nomeUtente').setAttribute("href","profile/"+id);
+          document.getElementById('nomeUtente').setAttribute("href","profile.html?id="+id);
           document.getElementById('rimuoviAmico').setAttribute("href","deletefriend?friendId="+id);
           var cards = $(".card:first").clone() //clone first divs
           //add values inside divs

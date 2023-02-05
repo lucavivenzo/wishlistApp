@@ -2,6 +2,7 @@ package com.sad.progetto.friendship;
 
 import com.sad.progetto.appUser.AppUser;
 import com.sad.progetto.appUser.AppUserRepository;
+import org.javatuples.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,9 +54,9 @@ public class FriendshipController {
     }
 
     @GetMapping("/listPendingRequests")
-    public ResponseEntity<List<Map.Entry<AppUser, String>>> getPendingRequests() {
-        List<Map.Entry<AppUser, String>> pendingRequests = friendshipService.getPendingRequests();
-        return new ResponseEntity<List<Map.Entry<AppUser,String>>>(pendingRequests, HttpStatus.OK);
+    public ResponseEntity<List<Pair<AppUser,String>>> getPendingRequests() {
+        List<Pair<AppUser,String>> pendingRequests = friendshipService.getPendingRequests();
+        return new ResponseEntity<List<Pair<AppUser,String>>>(pendingRequests, HttpStatus.OK);
     }
 
     @GetMapping("/setFriendship")

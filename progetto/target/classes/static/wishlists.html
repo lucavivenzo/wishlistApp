@@ -12,8 +12,8 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="index.html">WishlistApp</a>
     <form class="d-flex" role="search">
-      <input class="form-control me-2" type="search" placeholder="Cerca amici" aria-label="Search">
-      <button class="btn btn-outline-success">Cerca</button>
+      <input class="form-control me-2" id="inputPattern" type="search" placeholder="Cerca amici" aria-label="Search">
+      <button type="button" class="btn btn-outline-light" onclick="search()">Cerca</button>
     </form>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -27,7 +27,7 @@
           <a class="nav-link" href="wishlists.html">Le mie wishlist</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="events.html">I miei eventi</a>
+          <a class="nav-link" href="myEvents.html">I miei eventi</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="logout">Logout</a>
@@ -39,14 +39,14 @@
 <main class="container">
   <div class="row">
     <p></p><p></p>
-    <div class="col-3">
+    <div class="col-2">
       <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
         <a href="events.html" button type="button" class="btn btn-primary">Eventi</a>
         <a href="friends.html" type="button" class="btn btn-primary">Amici</a>
         <a href="friendsrequests.html" type="button" class="btn btn-primary">Richieste di amicizia</a>
       </div>
     </div>
-    <div class="col-9" id="listaWishlists">
+    <div class="col-7" id="listaWishlists">
       <div class="card bg-secondary">
         <!-- put item.userId & item.id below this -->
         <!-- <div class="card-header"></div> -->
@@ -60,10 +60,23 @@
         </div>
       </div>
     </div>
+    <div class="col-3">
+      <h1 class="h2 mb-3 fw-normal">Aggiungi nuova wishlist</h1>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="inputNome" placeholder="wishlist">
+        <label for="inputNome">Nome wishlist</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="inputDescrizione" placeholder="descrizione">
+        <label for="inputDescrizione">Descrizione wishlist</label>
+      </div>
+      <button type="button" class="w-100 btn btn-lg btn-primary" onclick="addWishlist()">Aggiungi</button>
+    </div>
+    </div>
   </div>
 </main>
 
-<script src="logout.js"></script>
+<script src="scripts.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script src="wishlists.js"></script>
 

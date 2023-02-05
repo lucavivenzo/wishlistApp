@@ -39,39 +39,61 @@
 <main class="container">
   <div class="row">
     <p></p><p></p>
-    <div class="col-3">
+    <div class="col-2">
       <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
         <a href="events.html" button type="button" class="btn btn-primary">Eventi</a>
         <a href="friends.html" type="button" class="btn btn-primary">Amici</a>
         <a href="friendsrequests.html" type="button" class="btn btn-primary">Richieste di amicizia</a>
       </div>
     </div>
-    <div class="col-9" id="listaWishlists">
+    <div class="col-7" id="listaWishlists">
       <div class="card bg-secondary">
         <!-- put item.userId & item.id below this -->
         <!-- <div class="card-header"></div> -->
 
         <div class="card-body">
           <!-- put item.title below this -->
-          <h5 class="card-title" id="nomeWishlist"></h5>
+          <a class="card-title" id="nomeWishlist" style="font-size: 20px; font-weight: bold"></a>
           <!-- put item.body below this -->
           <p class="card-text"></p>
           <ul class="list-group list-group-flush"></ul>
-          <div class="input-group">
-            <input type="text" aria-label="nomer" class="form-control" name="inputNome" placeholder="Nome regalo">
-            <input type="text" aria-label="descrizioner" class="form-control" name="inputDescrizione" placeholder="Descrizione">
-            <input type="text" aria-label="linkr" class="form-control" name="inputLink" placeholder="Link di acquisto">
-            <button class="btn btn-primary" type="button" onclick="addPresent()">Aggiungi regalo</button>
-          </div>
         </div>
       </div>
     </div>
+    <div class="col-3">
+      <h1 class="h2 mb-3 fw-normal">Aggiungi nuovo evento</h1>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="inputNome" placeholder="wishlist">
+        <label for="inputNome">Nome Evento</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="inputDescrizione" placeholder="descrizione">
+        <label for="inputDescrizione">Descrizione evento</label>
+      </div>
+      <div class="form-floating">
+        <input type="date" class="form-control" id="inputData" placeholder="data">
+        <label for="inputData">Data evento</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="inputIndirizzo" placeholder="indirizzo">
+        <label for="inputIndirizzo">Indirizzo evento</label>
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="wishlistCheck">
+        <label class="form-check-label" for="wishlistCheck">Associa wishlist esistente</label>
+      </div>
+      <select class="form-select" aria-label="Default select example" id="inputWishlist">
+        <option selected value="0">Seleziona wishlist</option>
+      </select>
+      <button type="button" class="w-100 btn btn-lg btn-primary" onclick="addEvent()">Aggiungi</button>
+    </div>
+  </div>
   </div>
 </main>
 
 <script src="scripts.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<script src="wishlist.js"></script>
+<script src="myEvents.js"></script>
 
 </body>
 </html>

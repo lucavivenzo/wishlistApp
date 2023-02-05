@@ -8,7 +8,7 @@ $(function() {
         var id = item.id;
         var name = item.name;
         var description = item.description;
-        var evento = item.evento;
+        var evento = item.event;
         var presents = item.presents;
         document.getElementById('nomeWishlist').setAttribute("href","wishlist.html?id="+id);
         var cards = $(".card:first").clone() //clone first divs
@@ -25,3 +25,26 @@ $(function() {
     }
   });
 });
+
+function addWishlist(){
+  let nomeW = document.getElementById('inputNome')
+  let descrizioneW = document.getElementById('inputDescrizione')
+  if(!nomeW.value) {window.alert('Inserire il nome della wishlist'); return}
+  if(!descrizioneW.value) {window.alert('Inserire una descrizione della wishlist'); return}
+
+  $.ajax({
+    url: 'wishlist/create',
+    type: 'GET',
+    data: {name:nomeW.value, description:descrizioneW.value},
+    success: function(result, textStatus, errorThrown) {
+        if(textStatus=='success'){
+          alert('Inserimento riuscito.')
+          window.location.replace('wishlist.html?id='+result.id);
+        }
+        else {
+            alert("Inserimento fallito. Riprovare.")
+        }
+    },
+    error: function(){alert("Inserimento fallito. Riprovare.")}
+  });
+}

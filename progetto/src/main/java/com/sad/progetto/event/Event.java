@@ -1,6 +1,7 @@
 package com.sad.progetto.event;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sad.progetto.appUser.AppUser;
 import com.sad.progetto.wishlist.Wishlist;
 import jakarta.persistence.*;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.Set;
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 public class Event {
     @Id
@@ -52,30 +54,6 @@ public class Event {
         this.wishlist = wishlist;
     }
 
-    public Wishlist getWishlist() {
-        return wishlist;
-    }
-
-    public void setWishlist(Wishlist wishlist) {
-        this.wishlist = wishlist;
-    }
-
-    public AppUser getOrganizer() {
-        return organizer;
-    }
-
-    public void setOrganizer(AppUser organizer) {
-        this.organizer = organizer;
-    }
-
-    public Set<AppUser> getGuests() {
-        return guests;
-    }
-
-    public void setGuests(Set<AppUser> guests) {
-        this.guests = guests;
-    }
-
     public Long getId() {
         return id;
     }
@@ -116,13 +94,27 @@ public class Event {
         this.eventAddress = eventAddress;
     }
 
-    public Boolean addGuest(AppUser guest){
-        return guests.add(guest);
+    public AppUser getOrganizer() {
+        return organizer;
     }
 
-    public Boolean removeGuest(AppUser guest){
-        return guests.remove(guest);
+    public void setOrganizer(AppUser organizer) {
+        this.organizer = organizer;
     }
 
+    public Set<AppUser> getGuests() {
+        return guests;
+    }
 
+    public void setGuests(Set<AppUser> guests) {
+        this.guests = guests;
+    }
+
+    public Wishlist getWishlist() {
+        return wishlist;
+    }
+
+    public void setWishlist(Wishlist wishlist) {
+        this.wishlist = wishlist;
+    }
 }

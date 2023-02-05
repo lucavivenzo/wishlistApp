@@ -2,6 +2,7 @@ package com.sad.progetto.friendship;
 
 import com.sad.progetto.appUser.AppUser;
 import com.sad.progetto.appUser.AppUserRepository;
+import org.javatuples.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -128,7 +129,7 @@ public class FriendshipService {
         return pendingFriendship;*/
 
     }
-    public List<Map.Entry<AppUser, String>> getPendingRequests() {
+    public List<Pair<AppUser,String>> getPendingRequests() {
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
 
@@ -136,14 +137,15 @@ public class FriendshipService {
         List<AppUser> pendingFriends = new ArrayList<>();
         List<LocalDate> pendingDates = new ArrayList<>();
 
-        List<Map.Entry<AppUser, String>> pendingRequests = new ArrayList<>();
+        List<Pair<AppUser,String>> pendingRequests = new ArrayList<>();
 
         for (Friendship friendship : friendships) {
             if (friendship.getAppUser1().getId() != currentUser.getId()) {
-                pendingRequests.add(new AbstractMap.SimpleEntry<>(friendship.getAppUser1(),friendship.getFriendshipDate().toString()));
+                pendingRequests.add(Pair.with(friendship.getAppUser1(),friendship.getFriendshipDate().toString()));
             }
             else {
-                pendingRequests.add(new AbstractMap.SimpleEntry<>(friendship.getAppUser2(),friendship.getFriendshipDate().toString()));
+                pendingRequests.add(Pair.with(friendship.getAppUser2(),friendship.getFriendshipDate().toString()));
+//                pendingRequests.add(new AbstractMap.SimpleEntry<>(friendship.getAppUser2(),friendship.getFriendshipDate().toString()));
             }
         }
 

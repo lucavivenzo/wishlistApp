@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AppUserService {
     @Autowired
@@ -24,6 +26,10 @@ public class AppUserService {
 
     public boolean checkIfUserExist(String email) {
         return appUserRepository.findUserByEmail(email) != null;
+    }
+
+    public List<AppUser> searchAppUser(String pattern){
+        return appUserRepository.searchAppUserByUsername('%'+pattern+'%');
     }
 
 }

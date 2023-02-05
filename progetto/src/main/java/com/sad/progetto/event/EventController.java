@@ -1,5 +1,6 @@
 package com.sad.progetto.event;
 
+import com.sad.progetto.wishlist.Wishlist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,11 @@ public class EventController {
     public void deleteEvent(@PathVariable("eventId") Long id){
         eventService.deleteEvent(id);
         return;
+    }
+
+    @GetMapping(path = "{eventId}")
+    public Event getEvent(@PathVariable("eventId") Long id) {
+        return eventService.getEvent(id);
     }
 
 }

@@ -1,3 +1,5 @@
+let patternRef = document.getElementById('inputPattern')
+
 function logout(){
     $.ajax({
         url: '/logout',
@@ -13,4 +15,9 @@ function logout(){
         },
         error: function(){alert("Logout fallito.")}
     });
+}
+
+function search(){
+    var pattern=patternRef.value;
+    window.location.replace("search.html?pattern="+encodeURIComponent(pattern));
 }

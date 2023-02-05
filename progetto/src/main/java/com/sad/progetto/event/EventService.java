@@ -75,4 +75,11 @@ public class EventService {
             System.out.println("evento non tuo o inesistente");
         }
     }
+
+    public Event getEvent(Long id){//TODO: dovrebbe restituire eventi tuoi o dei tuoi amici
+        if(eventRepository.findById(id).isPresent())
+            return eventRepository.findById(id).get();
+        else return null;
+    }
+
 }

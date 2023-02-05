@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class AppUserController {
 
@@ -27,6 +29,11 @@ public class AppUserController {
         }
     }
 
+    //TODO: NON RESTITUIRE IL NOME DELL'UTENTE CHE EFFETTUA LA RICERCA E GESTIRE EVENTUALI ERRORI NELLA RESPONSE ENTITY
+    @GetMapping("/search")
+    public ResponseEntity<List<AppUser>> searchAppUser(@RequestParam(name="pattern") String pattern){
+        return ResponseEntity.ok(appUserService.searchAppUser(pattern));
+    }
 
     //  TODO: REGISTER DEFINITIVA CON LA POST, CANCELLARE L'ALTRA
     /*@PostMapping("/register")
