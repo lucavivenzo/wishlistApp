@@ -36,6 +36,17 @@ public class EventController {
 
     }
 
+    @GetMapping(path="edit")
+    public ResponseEntity<Event> editEvent(@RequestParam("idEvent") Long idEvent, @RequestParam(name="name") String name, @RequestParam(name="description") String description, @RequestParam(name="date") String date, @RequestParam(name="eventAddress") String eventAddress){
+        Event edited = eventService.editEvent(idEvent, name,description, date, eventAddress);
+        if (edited!=null) {
+            return ResponseEntity.ok(edited);
+        } else {
+            return ResponseEntity.status(400).body(null);
+        }
+
+    }
+
     @GetMapping(path = "{eventId}") //Restituisce il singolo evento se tuo
     public ResponseEntity<Event> getEvent(@PathVariable("eventId") Long id) {
         Event event = eventService.getEvent(id);

@@ -102,6 +102,30 @@ public class EventService {
         }
     }
 
+    public Event editEvent(Long idEvent, String name, String description, String dateString, String eventAddress) {
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
+
+        Event event = getEvent(idEvent);
+
+        if (event==null) {
+            return null;
+        }
+        else {
+            if (name!="")
+                event.setName(name);
+            if (description!="")
+                event.setDescription(description);
+            if (dateString!="")
+                event.setDate(LocalDate.parse(dateString));
+            if (eventAddress!="")
+                event.setEventAddress(eventAddress);
+
+            eventRepository.save(event);
+            return event;
+        }
+    }
+
     //Restituisce il singolo evento se tuo
     public Event getEvent(Long id){
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
