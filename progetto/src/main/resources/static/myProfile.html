@@ -7,7 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </head>
-<body>
+<body style="--bs-body-bg: #eee;">
 <nav class="navbar navbar-dark static-top bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="index.html">WishlistApp</a>
@@ -21,10 +21,10 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav me-auto mb-2 mb-md-0 text-end">
         <li class="nav-item">
-          <a class="nav-link" href="profile.html">Profilo</a>
+          <a class="nav-link" href="myProfile.html">Profilo</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="wishlists.html">Le mie wishlist</a>
+          <a class="nav-link" href="myWishlists.html">Le mie wishlist</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="myEvents.html">I miei eventi</a>
@@ -39,6 +39,9 @@
 <main class="container">
   <div class="row">
     <p></p><p></p>
+    <h1 id="nomeProfilo"></h1>
+    <p id="emailProfilo"></p>
+    <p></p>
     <div class="col-2">
       <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
         <a href="events.html" button type="button" class="btn btn-primary">Eventi</a>
@@ -46,31 +49,24 @@
         <a href="friendsrequests.html" type="button" class="btn btn-primary">Richieste di amicizia</a>
       </div>
     </div>
-    <div class="col-7" id="listaWishlists">
-      <div class="card bg-secondary">
-        <!-- put item.userId & item.id below this -->
-        <!-- <div class="card-header"></div> -->
-
+    <div class="col-5" id="listaWishlists">
+      <h2>Wishlist</h2>  
+      <div class="card" id="cardWishlist">
         <div class="card-body">
-          <!-- put item.title below this -->
           <a class="card-title" id="nomeWishlist" style="font-size: 20px; font-weight: bold"></a>
-          <!-- put item.body below this -->
           <p class="card-text"></p>
-          <ul class="list-group list-group-flush"></ul>
         </div>
+        <ul class="list-group list-group-flush"></ul>
       </div>
     </div>
-    <div class="col-3">
-      <h1 class="h2 mb-3 fw-normal">Aggiungi nuova wishlist</h1>
-      <div class="form-floating">
-        <input type="text" class="form-control" id="inputNome" placeholder="wishlist">
-        <label for="inputNome">Nome wishlist</label>
-      </div>
-      <div class="form-floating">
-        <input type="text" class="form-control" id="inputDescrizione" placeholder="descrizione">
-        <label for="inputDescrizione">Descrizione wishlist</label>
-      </div>
-      <button type="button" class="w-100 btn btn-lg btn-primary" onclick="addWishlist()">Aggiungi</button>
+    <div class="col-5" id="listaEvents">
+        <h2>Eventi</h2>
+        <div class="card" id="cardEvent">
+            <div class="card-body">
+              <a class="card-title" id="nomeEvent" style="font-size: 20px; font-weight: bold"></a>
+              <p class="card-text"></p>
+            </div>
+        </div>
     </div>
     </div>
   </div>
@@ -78,7 +74,7 @@
 
 <script src="scripts.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<script src="wishlists.js"></script>
+<script src="myProfile.js"></script>
 
 </body>
 </html>

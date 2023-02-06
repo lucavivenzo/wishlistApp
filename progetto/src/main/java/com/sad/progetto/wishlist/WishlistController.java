@@ -25,14 +25,19 @@ public class WishlistController {
         wishlistService.removeWishlist(id);
     }
 
-    @GetMapping(path = "{wishlistId}")
-    public ResponseEntity<Wishlist> getWishlist(@PathVariable("wishlistId") Long wishlistId) {
+    @GetMapping(path = "{wishlistId}/friend")
+    public ResponseEntity<Wishlist> getFriendsWishlist(@PathVariable("wishlistId") Long wishlistId) {
         Wishlist wishlist = wishlistService.getFriendsWishlist(wishlistId);
         if (wishlist!=null) {
             return new ResponseEntity<Wishlist>(wishlist, HttpStatus.OK);
         } else {
             return new ResponseEntity<Wishlist>((Wishlist) null, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping(path="{wishlistId}")
+    public Wishlist getWishlist(@PathVariable("wishlistId") Long id){
+        return wishlistService.getWishlist(id);
     }
 
     @GetMapping(path = "all")

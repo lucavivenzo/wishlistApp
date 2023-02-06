@@ -17,10 +17,11 @@ $(function() {
         var cards = $(".card:first").clone() //clone first divs
         //add values inside divs
         //$(cards).find(".card-header").html(name);
-        $(cards).find(".card-title").html(name);
+        $(cards).find(".card-header").html("<p class='p-0 m-0 flex-grow-1'>"+name+"</p><button class='btn btn-danger' type='button' onclick='removeWishlist()'>Elimina wishlist</button></div>");
         $(cards).find(".card-text").html(description);
         $.each(presents, function(index2, item2){
-            $(cards).find(".list-group").append("<li class='list-group-item'>"+item2.name+" "+item2.description+" "+item2.link+"</li>");
+          $(cards).find(".list-group").append("<li class='list-group-item d-flex'><p class='p-0 m-0 flex-grow-1'>"+"Regalo "+(index2+1)+": "+item2.name+" "+item2.description+" "+item2.link+"</p><button type='button' class=' btn btn-danger' onclick='removePresent("+item2.id+")'>Elimina regalo</button></li>");
+          //$(cards).find(".list-group").append("<li class='list-group-item'>"+item2.name+" "+item2.description+" "+item2.link+"</li>");
         })
         $(cards).show() //show cards
         $(cards).appendTo($("#listaWishlists")) //append to container
@@ -51,4 +52,38 @@ $(function() {
         },
         error: function(){alert("Inserimento fallito. Riprovare.")}
     });
+}
+
+function removeWishlist(){
+  $.ajax({
+    url: 'wishlist/delete',
+    type: 'GET',
+    data: {id:pageId},
+    success: function(result, textStatus, errorThrown) {
+        if(textStatus=='success'){
+          window.location.replace('myWishlists.html');
+        }
+        else {
+            alert("Eliminazione fallita. Riprovare.")
+        }
+    },
+    error: function(){alert("Eliminazione fallita. Riprovare.")}
+});
+}
+
+function removePresent(idRegalo){
+  console.log(idRegalo);
+  $.ajax({
+    url: 'wishlist/'+pageId+"/delete/"+idRegalo,
+    type: 'GET',
+    success: function(result, textStatus, errorThrown) {
+        if(textStatus=='success'){
+            window.location.reload();
+        }
+        else {
+            alert("Eliminazione fallita. Riprovare.")
+        }
+    },
+    error: function(){alert("Eliminazione fallita. Riprovare.")}
+});
 }

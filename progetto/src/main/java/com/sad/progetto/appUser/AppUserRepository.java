@@ -19,7 +19,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
      AppUser findUserByEmail(String userEmail);
      AppUser findUserById(Long id);
 
-     @Query(value="SELECT * FROM app_user where username LIKE ?1", nativeQuery = true)
+     @Query(value="SELECT * FROM app_user where LOWER(username) LIKE LOWER(?1)", nativeQuery = true)
      List<AppUser> searchAppUserByUsername(String pattern);
 
 //    private final static List<UserDetails> APPLICATION_USERS = Arrays.asList(

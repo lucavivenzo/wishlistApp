@@ -55,6 +55,19 @@ public class WishlistService {
 
     }
 
+    //Restituisce la wishlist se chi fa la richiesta ne è proprietario
+    public Wishlist getWishlist(Long id){
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
+        Optional<Wishlist> optionalWishlist=wishlistRepository.findById(id);
+        if(optionalWishlist.isPresent()){
+            if(optionalWishlist.get().getOwner().getId()== currentUser.getId())
+                return optionalWishlist.get();
+            else return null;
+        }
+        else return null;
+    }
+
     //Restituisce la wishlist specifica di un amico
     public Wishlist getFriendsWishlist(Long idWishlist){
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
