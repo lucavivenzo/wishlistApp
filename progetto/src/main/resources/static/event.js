@@ -1,6 +1,8 @@
 let url = new URL(window.location.href);
 let pageId = url.searchParams.get("id");
 var eventAddress;
+var eventGuests;
+var nOfFriendsNotInvited=0;
 
 
 $(function() {
@@ -15,15 +17,18 @@ $(function() {
         var description = item.description;
         var eventDate = item.date;
         eventAddress = item.eventAddress;
+        eventGuests = item.guests;
         //var organizerName = item.organizer.username;//se servirà
         //var guests = item.guests;//se servirà (da iterare)
         document.getElementById('nomeEvent').setAttribute("href","event.html?id="+id);
         var cards = $(".card:first").clone() //clone first divs
         //add values inside divs
         //$(cards).find(".card-header").html(name);
-        $(cards).find(".card-title").html(name);
-        $(cards).find(".card-text").html(description+' '+eventDate+' '+eventAddress);
-        
+        $(cards).find(".card-header").html("<p class='p-0 m-0 flex-grow-1'>"+name+"</p><button class='btn btn-danger' type='button' onclick='removeEvent()'>Elimina evento</button>");
+        $(cards).find(".card-text").html("<p class='p-0 m-0 flex-grow-1'>"+description+' '+eventDate+' '+eventAddress+"</p><button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>Aggiungi invitati</button>");
+        $.each(eventGuests, function(index2, item2){
+          $(cards).find(".list-group").append("<li class='list-group-item'>"+item2.username+"</li>");
+        })
         $(cards).show() //show cards
         $(cards).appendTo($("#listaEvents")) //append to container
       }
@@ -46,4 +51,49 @@ $(function() {
       }
     })
 
+    console.log(eventGuests);
+    //prende tutti gli amici che non sono già invitati all'evento e li aggiunge alla schermata di aggiunta invitati
+    $.ajax({
+      url: "listFriends",
+      success: function(result) {
+        $.each(result, function(index, item) {
+          var id = item.id;
+          var username = item.username;
+          
+          if(!(eventGuests.includes(result))){//aggiungi check con username solo se già non invitati. hanno id crescenti
+            document.getElementById('checklistAmici').innerHTML+="<div class='form-check'><input class='form-check-input' type='checkbox' value='"+id+"' id='check"+index+"'><label class='form-check-label' for='check"+id+"'>"+username+"</label></div>";
+            nOfFriendsNotInvited++;
+          }
+        });
+      }
+    });
+
   });
+
+  function removeEvent(){
+    $.ajax({
+      url: 'event/delete/'+pageId,
+      type: 'GET',
+      success: function(result, textStatus, errorThrown) {
+          if(textStatus=='success'){
+            window.location.replace('myEvents.html');
+          }
+          else {
+              alert("Eliminazione fallita. Riprovare.")
+          }
+      },
+      error: function(){alert("Eliminazione fallita. Riprovare.")}
+  });
+  }
+
+  function inviteFriends(){
+    //questa parte crea un array contenente gli id degli amici selezionati da invitare
+    var newGuestsIds=new Array();
+    var checkElement;
+    for(let i=0;i<nOfFriendsNotInvited;i++){
+      checkElement=document.getElementById('check'+i)
+      if(checkElement.checked) {newGuestsIds.push(checkElement.value);}
+    }
+
+    console.log(newGuestsIds)
+  }
