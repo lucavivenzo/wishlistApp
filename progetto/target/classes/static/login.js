@@ -8,7 +8,6 @@ let passwordRegister = document.getElementById('floatingPasswordRegister')
 function login(){
     if(!emailLogin.value) {window.alert('Inserire una email'); return}
     if(!passwordLogin.value) {window.alert('Inserire una password'); return}
-    console.log("login")
     $.ajax({
         url: '/login',
         type: 'POST',
@@ -36,8 +35,9 @@ function register(){
 
     $.ajax({
         url: '/register',
-        type: 'GET',
-        data: {username:usernameRegister.value, email:emailRegister.value, password:passwordRegister.value},
+        type: 'POST',
+        headers: {"content-type":"application/json"},
+        data: JSON.stringify({username:usernameRegister.value, email:emailRegister.value, password:passwordRegister.value}),
         dataType: 'text',
         async: false,
         success: function(result, textStatus, errorThrown) {//result è il token
