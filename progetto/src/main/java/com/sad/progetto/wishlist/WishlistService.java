@@ -106,7 +106,7 @@ public class WishlistService {
 
             Long ownerId = wishlist.getOwner().getId();
 
-            Friendship friendship = friendshipRepository.findByAppUser1AndAppUser2AndState(ownerId, currentUser.getId(), 1);
+            Friendship friendship = friendshipRepository.findByAppUser1AndAppUser2AndState(ownerId, currentUser.getId(), 0);
 
             if (friendship != null) {
                 //posso vedere la wishlist se sono negli invitati all'evento o se la wishlist non è associata a nessun evento
@@ -130,7 +130,7 @@ public class WishlistService {
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
 
-        Friendship friendship = friendshipRepository.findByAppUser1AndAppUser2AndState(currentUser.getId(), friendId, 1);
+        Friendship friendship = friendshipRepository.findByAppUser1AndAppUser2AndState(currentUser.getId(), friendId, 0);
         if (friendship != null) {
 
             AppUser friend = appUserRepository.findUserById(friendId);
@@ -164,8 +164,7 @@ public class WishlistService {
 
         List<Wishlist> friendsWishlists = new ArrayList<>();
 
-        Set<Friendship> f = currentUser.getFriendships();
-        List<Friendship> friendships = new ArrayList<>(f);
+        List<Friendship> friendships = friendshipRepository.findByAppUserAndState(currentUser.getId(), 0);
 
         for (Friendship friend : friendships) {
             //prendo l'ID dell'amico
@@ -177,7 +176,10 @@ public class WishlistService {
                 friendId=friend.getAppUser2().getId();
             }
             //aggiungo tutte le wishlist visualizzabili
-            friendsWishlists.addAll(getWishlistsOfAFriend(friendId));
+            List<Wishlist> wishlists = getWishlistsOfAFriend(friendId);
+            if (wishlists!=null) {
+                friendsWishlists.addAll(wishlists);
+            }
         }
 
         return friendsWishlists;
@@ -256,7 +258,7 @@ public class WishlistService {
             Wishlist wishlist = present.getWishlist();
             if (wishlist != null) {
                 //verifica se il current user è amico dell'owner della wishlist
-                Friendship friendship = friendshipRepository.findByAppUser1AndAppUser2AndState(wishlist.getOwner().getId(), currentUser.getId(), 1);
+                Friendship friendship = friendshipRepository.findByAppUser1AndAppUser2AndState(wishlist.getOwner().getId(), currentUser.getId(), 0);
                 if (friendship!=null) {
                     present.setState(true);
                     presentRepository.save(present);

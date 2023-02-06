@@ -38,16 +38,19 @@ public class FriendshipService {
             AppUser firstuser = currentUser;
             AppUser seconduser = newFriend;
 
+            Integer state = 1;
+
             if (currentUser.getId() > newFriend.getId()) {
                 firstuser = newFriend;
                 seconduser = currentUser;
+                state = 2;
             }
 
             if ((!(friendshipRepository.existsByAppUser1AndAppUser2(firstuser, seconduser))) && (currentUser.getId() != newFriend.getId())) {
                 friendship.setFriendshipDate(LocalDate.now());
                 friendship.setAppUser1(firstuser);
                 friendship.setAppUser2(seconduser);
-                friendship.setFriendshipState(0); //pending state
+                friendship.setFriendshipState(state); //pending state
                 friendshipRepository.save(friendship); //salva la friendship
 
                 currentUser.addFriendship(friendship); //aggiunge la friendship all'utente che invia la richiesta di amicizia
@@ -68,7 +71,7 @@ public class FriendshipService {
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
 
-        List<Friendship> friendships = friendshipRepository.findByAppUserAndState(currentUser.getId(), 1);
+        List<Friendship> friendships = friendshipRepository.findByAppUserAndState(currentUser.getId(), 0);
         List<AppUser> friends = new ArrayList<>();
 
         for (Friendship friendship : friendships) {
@@ -105,7 +108,18 @@ public class FriendshipService {
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
 
-        List<Friendship> pendingFriendships = friendshipRepository.findByAppUserAndState(currentUser.getId(), 0);
+        List<Friendship> pendingFriendships = friendshipRepository.findByAppUserAndState(currentUser.getId(), 1);
+        pendingFriendships.addAll(friendshipRepository.findByAppUserAndState(currentUser.getId(), 2));
+
+        for (Friendship friendship : pendingFriendships) {
+            //se l'utente che vuole vedere le proprie pending è l'appuser1 e se nella friendship la richiesta è stata inviata da appuser1
+            if (friendship.getAppUser1().getId()==currentUser.getId() && friendship.getFriendshipState()==1) {
+                pendingFriendships.remove(friendship);
+                //se l'utente che vuole vedere le proprie pending è l'appuser2 e se nella friendship la richiesta è stata inviata da appuser2
+            } else if (friendship.getAppUser2().getId()==currentUser.getId() && friendship.getFriendshipState()==2) {
+                pendingFriendships.remove(friendship);
+            }
+        }
 
         return pendingFriendships;
 
@@ -140,12 +154,11 @@ public class FriendshipService {
         List<Pair<AppUser,String>> pendingRequests = new ArrayList<>();
 
         for (Friendship friendship : friendships) {
-            if (friendship.getAppUser1().getId() != currentUser.getId()) {
+            if (friendship.getFriendshipState()==1) {
                 pendingRequests.add(Pair.with(friendship.getAppUser1(),friendship.getFriendshipDate().toString()));
             }
-            else {
+            else if (friendship.getFriendshipState()==2) {
                 pendingRequests.add(Pair.with(friendship.getAppUser2(),friendship.getFriendshipDate().toString()));
-//                pendingRequests.add(new AbstractMap.SimpleEntry<>(friendship.getAppUser2(),friendship.getFriendshipDate().toString()));
             }
         }
 
@@ -205,27 +218,39 @@ public class FriendshipService {
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
 
-        Friendship friendship = friendshipRepository.findByAppUser1AndAppUser2AndState(friendId, currentUser.getId(),0);
+        List<Friendship> pendingFriendships = getPendingFriendships();
 
-        //TODO: CHI INVIA LA RICHIESTA SE LA PUO AUTOACCETTARE. SERVIREBBERO RICHIESTE DA DESTRA E SINISTRA
-        if ((friendship!=null) && (currentUser.getId() != friendId)) {
-            friendship.setFriendshipState(1);
-            friendship.setFriendshipDate(LocalDate.now());
-
-            //TODO: CAPIRE SE SI DEVE FARE O E' SUPERFLUO
-            /*
-            currentUser.addFriendship(friendship);
-            friendship.getAppUser2().addFriendship(friendship);
-
-            appUserRepository.save(currentUser);
-            appUserRepository.save(friendship.getAppUser2());
-             */
-            friendshipRepository.save(friendship);
-            return true;
+        for (Friendship friendship : pendingFriendships) {
+            if (friendship.getAppUser1().getId()==friendId || friendship.getAppUser2().getId()==friendId) {
+                friendship.setFriendshipState(0);
+                friendship.setFriendshipDate(LocalDate.now());
+                friendshipRepository.save(friendship);
+                return true;
+            }
         }
-        else {
-            return false;
-        }
+        return false;
+
+//        Friendship friendship = friendshipRepository.findByAppUser1AndAppUser2AndState(friendId, currentUser.getId(),0);
+//
+//        //TODO: CHI INVIA LA RICHIESTA SE LA PUO AUTOACCETTARE. SERVIREBBERO RICHIESTE DA DESTRA E SINISTRA
+//        if ((friendship!=null) && (currentUser.getId() != friendId)) {
+//            friendship.setFriendshipState(1);
+//            friendship.setFriendshipDate(LocalDate.now());
+//
+//            //TODO: CAPIRE SE SI DEVE FARE O E' SUPERFLUO
+//            /*
+//            currentUser.addFriendship(friendship);
+//            friendship.getAppUser2().addFriendship(friendship);
+//
+//            appUserRepository.save(currentUser);
+//            appUserRepository.save(friendship.getAppUser2());
+//             */
+//            friendshipRepository.save(friendship);
+//            return true;
+//        }
+//        else {
+//            return false;
+//        }
 
         /*List<Friendship> pendingFriendships = getPendingFriendships();
         //OTTIMIZZARE CON UNA QUERY AD HOC
@@ -259,13 +284,13 @@ public class FriendshipService {
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
 
-        Friendship friendship = friendshipRepository.findByAppUser1AndAppUser2AndState(friendId, currentUser.getId(),0);
+        List<Friendship> pendingFriendships = getPendingFriendships();
 
-        //TODO: CHI INVIA LA RICHIESTA LA PUO RIFIUTARE. SERVIREBBERO RICHIESTE DA DESTRA E SINISTRA
-        if ((friendship!=null) && (currentUser.getId() != friendId)) {
+        for (Friendship friendship : pendingFriendships) {
+            if (friendship.getAppUser1().getId()==friendId || friendship.getAppUser2().getId()==friendId) {
 
-            AppUser appUser1 = friendship.getAppUser1();
             AppUser appUser2 = friendship.getAppUser2();
+            AppUser appUser1 = friendship.getAppUser1();
 
             appUser1.getFriendships().remove(friendship);
             appUser2.getFriendships().remove(friendship);
@@ -275,10 +300,30 @@ public class FriendshipService {
             friendshipRepository.delete(friendship);
 
             return true;
+            }
         }
-        else {
-            return false;
-        }
+        return false;
+
+//        Friendship friendship = friendshipRepository.findByAppUser1AndAppUser2AndState(friendId, currentUser.getId(),0);
+//
+//        //TODO: CHI INVIA LA RICHIESTA LA PUO RIFIUTARE. SERVIREBBERO RICHIESTE DA DESTRA E SINISTRA
+//        if ((friendship!=null) && (currentUser.getId() != friendId)) {
+//
+//            AppUser appUser1 = friendship.getAppUser1();
+//            AppUser appUser2 = friendship.getAppUser2();
+//
+//            appUser1.getFriendships().remove(friendship);
+//            appUser2.getFriendships().remove(friendship);
+//
+//            appUserRepository.save(appUser1);
+//            appUserRepository.save(appUser2);
+//            friendshipRepository.delete(friendship);
+//
+//            return true;
+//        }
+//        else {
+//            return false;
+//        }
 
         /*
         List<Friendship> pendingFriendships = getPendingFriendships();
@@ -319,7 +364,7 @@ public class FriendshipService {
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
 
-        Friendship friendshipToDelete = friendshipRepository.findByAppUser1AndAppUser2AndState(friendId, currentUser.getId(),1);
+        Friendship friendshipToDelete = friendshipRepository.findByAppUser1AndAppUser2AndState(friendId, currentUser.getId(),0);
 
         if (friendshipToDelete!=null) {
             AppUser friendToDelete = appUserRepository.findUserById(friendId);

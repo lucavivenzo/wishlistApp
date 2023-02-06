@@ -22,8 +22,9 @@ public class Friendship {
 
 /*  VALUE FOR FRIENDSHIPSTATE:
 
-    0: pending request
-    1: friends
+    0: friends
+    1: pending, appUser1 ha inviato la richiesta
+    2: pending, appUser2 ha inviato la richiesta
 
 */
 

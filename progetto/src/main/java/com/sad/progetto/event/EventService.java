@@ -197,10 +197,10 @@ public class EventService {
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
 
-        //controllare che chi sto invitando è amico e l'evento sia mio
+        //controllare che chi sto invitando è amico e l'evento sia mio amico
 
         Event event = eventRepository.findEventById(idEvent);
-        Friendship friendship = friendshipRepository.findByAppUser1AndAppUser2AndState(currentUser.getId(), idFriend,1);
+        Friendship friendship = friendshipRepository.findByAppUser1AndAppUser2AndState(currentUser.getId(), idFriend,0);
 
         if ( (event!=null) && (event.getOrganizer().getId()==currentUser.getId()) && (friendship!=null)) {
 
