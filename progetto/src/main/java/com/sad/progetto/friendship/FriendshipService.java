@@ -265,7 +265,7 @@ public class FriendshipService {
         if ((friendship!=null) && (currentUser.getId() != friendId)) {
 
             AppUser appUser1 = friendship.getAppUser1();
-            AppUser appUser2 = friendship.getAppUser1();
+            AppUser appUser2 = friendship.getAppUser2();
 
             appUser1.getFriendships().remove(friendship);
             appUser2.getFriendships().remove(friendship);
