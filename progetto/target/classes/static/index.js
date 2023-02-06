@@ -20,7 +20,8 @@ $(function() {
           $(cards).find(".card-title").html(name);
           $(cards).find(".card-text").html(description);
           $.each(presents, function(index2, item2){
-              $(cards).find(".list-group").append("<li class='list-group-item'>"+item2.name+" "+item2.description+" "+item2.link+"</li>");
+            //$(cards).find(".list-group").append("<li class='list-group-item d-flex'><p class='p-0 m-0 flex-grow-1'>Second item</p><button class='btn-success'>EDIT</button><button class='btn-danger'>DELETE</button></li>");
+              $(cards).find(".list-group").append("<li class='list-group-item'>"+"Regalo "+(index2+1)+": "+item2.name+" "+item2.description+" "+item2.link+"</li>");
           })
           $(cards).show() //show cards
           $(cards).appendTo($("#listaWishlists")) //append to container

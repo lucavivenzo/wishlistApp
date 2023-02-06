@@ -18,7 +18,6 @@ function login(){
         async: false,
         success: function(result, textStatus, errorThrown) {//result è il token
             if(textStatus=='success'){
-                alert('ok')
                 window.location.replace('index.html');
                 return false;
             }
