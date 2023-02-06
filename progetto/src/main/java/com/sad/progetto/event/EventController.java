@@ -1,5 +1,7 @@
 package com.sad.progetto.event;
 
+import com.sad.progetto.dto.InviteRequest;
+import com.sad.progetto.dto.RegisterRequest;
 import com.sad.progetto.wishlist.Wishlist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -107,11 +109,11 @@ public class EventController {
         }
     }
 
-    @GetMapping(path="invite") //Invita un amico all'evento
-    public ResponseEntity<String> invite(@RequestParam("idFriend") Long idFriend, @RequestParam("idEvent") Long idEvent) {
-        Boolean invited = eventService.invite(idFriend, idEvent);
+    @PostMapping(path="invite") //Invita un amico all'evento
+    public ResponseEntity<String> invite(@RequestBody InviteRequest inviteRequest) {
+        Boolean invited = eventService.invites(inviteRequest.getIdFriend(), inviteRequest.getIdEvent());
         if (invited) {
-            return ResponseEntity.ok("Friend invited successfully");
+            return ResponseEntity.ok("Friends invited successfully");
         } else {
             return ResponseEntity.status(400).body("Error");
         }

@@ -234,4 +234,19 @@ public class EventService {
         }
     }
 
+    public Boolean invites (List<Long> idUsers, Long idEvent) {
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
+
+        Event event = eventRepository.findEventById(idEvent);
+
+        if (event != null) {
+            for (Long id : idUsers) {
+                invite(id, idEvent);
+            }
+            return true;
+        }
+        return false;
+    }
+
 }
