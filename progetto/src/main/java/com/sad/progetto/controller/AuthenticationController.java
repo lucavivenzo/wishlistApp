@@ -33,7 +33,7 @@ public class    AuthenticationController {
     private final JwtUtils jwtUtils;
 
     @PostMapping
-    public ResponseEntity<String> authenticate  (@RequestBody AuthenticationRequest authenticationRequest) {
+    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
 
         try {
         authenticationManager.authenticate(

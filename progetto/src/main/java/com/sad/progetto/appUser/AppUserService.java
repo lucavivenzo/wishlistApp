@@ -15,9 +15,14 @@ public class AppUserService {
 
     public Boolean register(String username, String email, String password) {
         if(!checkIfUserExist(email)) {
-            AppUser appUser = new AppUser(username, email, passwordEncoder.encode(password));
-            appUserRepository.save(appUser);
-            return true;
+            if (username!=null && password != null) {
+                AppUser appUser = new AppUser(username, email, passwordEncoder.encode(password));
+                appUserRepository.save(appUser);
+                return true;
+            }
+            else {
+                return false;
+            }
         }
         else {
             return false;

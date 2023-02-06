@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface PresentRepository extends JpaRepository<Present, Long> {
     List<Present> findByWishlist(Wishlist wishlist);
+
+    Present findPresentById(Long id);
 }
