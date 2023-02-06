@@ -1,5 +1,6 @@
 package com.sad.progetto.appUser;
 
+import com.sad.progetto.dto.AuthenticationRequest;
 import com.sad.progetto.dto.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +16,10 @@ public class AppUserController {
     @Autowired
     AppUserService appUserService;
 
-    @GetMapping("/register")
-    public ResponseEntity<String> register(@RequestParam (name = "username") String username,
-                            @RequestParam(name = "email") String email,
-                            @RequestParam(name = "password") String password) {
-        Boolean status = appUserService.register(username, email,password);
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
+
+        Boolean status = appUserService.register(registerRequest.getUsername(), registerRequest.getEmail(), registerRequest.getPassword());
 
         if (status) {
             return ResponseEntity.ok("Registered");

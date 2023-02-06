@@ -2,6 +2,8 @@ package com.sad.progetto.wishlist;
 
 import com.sad.progetto.present.Present;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +26,13 @@ public class WishlistController {
     }
 
     @GetMapping(path = "{wishlistId}")
-    public Wishlist getWishlist(@PathVariable("wishlistId") Long id) {
-        return wishlistService.getWishlist(id);
+    public ResponseEntity<Wishlist> getWishlist(@PathVariable("wishlistId") Long wishlistId) {
+        Wishlist wishlist = wishlistService.getFriendsWishlist(wishlistId);
+        if (wishlist!=null) {
+            return new ResponseEntity<Wishlist>(wishlist, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Wishlist>((Wishlist) null, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping(path = "all")
@@ -39,8 +46,15 @@ public class WishlistController {
     }
 
     @GetMapping(path = "{wishlistId}/delete/{presentId}")//DA CAMBIARE IN DELETE
-    public void removePresent(@PathVariable("wishlistId") Long wishlistId, @PathVariable("presentId") Long presentId) {
-        wishlistService.removePresent(wishlistId, presentId);
+    public ResponseEntity<String> removePresent(@PathVariable("wishlistId") Long wishlistId, @PathVariable("presentId") Long presentId) {
+        Boolean removed = wishlistService.removePresent(wishlistId, presentId);
+
+        if (removed) {
+            return ResponseEntity.ok("Present removed");
+        }
+        else {
+            return ResponseEntity.status(400).body("Present not removed");
+        }
     }
 
     @GetMapping(path = "{wishlistId}/allpresents")
@@ -51,6 +65,31 @@ public class WishlistController {
 
     @GetMapping("/friendswishlist")
     public List<Wishlist> getFriendsWishlist() {
-        return wishlistService.getFriendsWishlist();
+        return wishlistService.getFriendsWishlists();
     }
+
+    @GetMapping("/wishlistsofafriend")
+    public ResponseEntity<List<Wishlist>> getWishlistsOfAFriend(@RequestParam("friendId")Long friendId) {
+        List<Wishlist> wishlists = wishlistService.getWishlistsOfAFriend(friendId);
+
+        if (wishlists != null) {
+            return new ResponseEntity<List<Wishlist>>(wishlists, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<List<Wishlist>>((List<Wishlist>) null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/buy")
+    public ResponseEntity<String> buy(@RequestParam("idPresent")Long idPresent) {
+        Boolean purchased = wishlistService.buy(idPresent);
+        if (purchased) {
+            return ResponseEntity.ok("Purchased");
+        } else {
+            return ResponseEntity.status(400).body("Not purchased");
+        }
+    }
+
+
+
 }
