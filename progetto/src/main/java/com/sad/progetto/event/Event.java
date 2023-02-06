@@ -124,4 +124,5 @@ public class Event {
     public Boolean removeGuest(AppUser guest){
         return guests.remove(guest);
     }
+
 }
