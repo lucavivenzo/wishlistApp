@@ -126,6 +126,23 @@ public class EventService {
         }
     }
 
+    public Event addWishlistToEvent (Long idWishlist, Long idEvent) {
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
+
+        Wishlist wishlist = wishlistRepository.findWishlistById(idWishlist);
+        Event event = eventRepository.findEventById(idEvent);
+
+        if ((wishlist.getOwner().getId()== currentUser.getId()) && (event.getOrganizer().getId()==currentUser.getId())) {
+            event.setWishlist(wishlist);
+            wishlist.setEvent(event);
+            eventRepository.save(event);
+            wishlistRepository.save(wishlist);
+            return event;
+        }
+        return null;
+    } //TODO: PROBABILMENTE NON SERVE
+
     //Restituisce il singolo evento se tuo
     public Event getEvent(Long id){
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();

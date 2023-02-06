@@ -47,6 +47,16 @@ public class EventController {
 
     }
 
+    @GetMapping(path="addWishlistToEvent")
+    public ResponseEntity<Event> addWishlistToEvent(@RequestParam("idWishlist") Long idWishlist, @RequestParam("idEvent") Long idEvent) {
+        Event added = eventService.addWishlistToEvent(idWishlist,idEvent);
+        if (added!=null) {
+            return ResponseEntity.ok(added);
+        } else {
+            return ResponseEntity.status(400).body(null);
+        }
+    }
+
     @GetMapping(path = "{eventId}") //Restituisce il singolo evento se tuo
     public ResponseEntity<Event> getEvent(@PathVariable("eventId") Long id) {
         Event event = eventService.getEvent(id);

@@ -25,6 +25,16 @@ public class WishlistController {
         wishlistService.removeWishlist(id);
     }
 
+    @GetMapping(path = "edit")
+    public ResponseEntity<String> editWishlist(@RequestParam(name = "idWishlist") Long idWishlist, @RequestParam(name = "name") String name, @RequestParam(name = "description") String description) {
+        Boolean edited = wishlistService.editWishlist(idWishlist, name, description);
+        if(edited) {
+            return ResponseEntity.ok("Wishlist edited");
+        } else {
+            return ResponseEntity.status(400).body("Error");
+        }
+    }
+
     @GetMapping(path = "{wishlistId}/friend")
     public ResponseEntity<Wishlist> getFriendsWishlist(@PathVariable("wishlistId") Long wishlistId) {
         Wishlist wishlist = wishlistService.getFriendsWishlist(wishlistId);

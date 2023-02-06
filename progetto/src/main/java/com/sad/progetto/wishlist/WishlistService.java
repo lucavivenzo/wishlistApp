@@ -82,6 +82,20 @@ public class WishlistService {
 
     }
 
+    public Boolean editWishlist(Long idWishlist, String name, String description) {
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
+
+        Wishlist wishlist = wishlistRepository.findWishlistById(idWishlist);
+        if (wishlist.getOwner().getId()== currentUser.getId()) {
+            wishlist.setName(name);
+            wishlist.setDescription(description);
+            wishlistRepository.save(wishlist);
+            return true;
+        }
+        return false;
+    }
+
     //Restituisce la wishlist se chi fa la richiesta ne è proprietario
     public Wishlist getWishlist(Long id){
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
