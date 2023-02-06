@@ -37,34 +37,44 @@
   </div>
 </nav>
 <main class="container">
-  <div class="row justify-content-around">
+  <div class="row">
     <p></p><p></p>
-    <div class="col-3">
+    <h1 id="nomeProfilo"></h1>
+    <h4 id="emailProfilo"></h4>
+    <p></p>
+    <div class="col-2">
       <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
         <a href="events.html" button type="button" class="btn btn-primary">Eventi</a>
         <a href="friends.html" type="button" class="btn btn-primary">Amici</a>
         <a href="friendsrequests.html" type="button" class="btn btn-primary">Richieste di amicizia</a>
       </div>
     </div>
-    <div class="col-9" id="listaWishlists">
-      <div class="card">
-        <!-- put item.userId & item.id below this -->
-        <!-- <div class="card-header"></div> -->
-
+    <div class="col-5" id="listaWishlists">
+      <h2>Wishlist</h2>  
+      <div class="card" id="cardWishlist">
         <div class="card-body">
-          <!-- put item.title below this -->
-          <h5 class="card-title"></h5>
-          <!-- put item.body below this -->
+          <a class="card-title" id="nomeWishlist" style="font-size: 20px; font-weight: bold"></a>
           <p class="card-text"></p>
         </div>
         <ul class="list-group list-group-flush"></ul>
       </div>
+    </div>
+    <div class="col-5" id="listaEvents">
+        <h2>Eventi</h2>
+        <div class="card" id="cardEvent">
+            <div class="card-body">
+              <a class="card-title" id="nomeEvent" style="font-size: 20px; font-weight: bold"></a>
+              <p class="card-text"></p>
+            </div>
+        </div>
+    </div>
     </div>
   </div>
 </main>
 
 <script src="scripts.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="myProfile.js"></script>
 
 </body>
 </html>
