@@ -30,7 +30,6 @@ function addWishlist(){
   let nomeW = document.getElementById('inputNome')
   let descrizioneW = document.getElementById('inputDescrizione')
   if(!nomeW.value) {window.alert('Inserire il nome della wishlist'); return}
-  if(!descrizioneW.value) {window.alert('Inserire una descrizione della wishlist'); return}
 
   $.ajax({
     url: 'wishlist/create',

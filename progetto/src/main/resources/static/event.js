@@ -96,4 +96,24 @@ $(function() {
     }
 
     console.log(newGuestsIds)
+
+    $.ajax({
+      url: '/event/invite',
+      type: 'POST',
+      headers: {"content-type":"application/json"},
+      data: JSON.stringify({idFriend:newGuestsIds, idEvent:pageId}),
+      dataType: 'text',
+      async: false,
+      success: function(result, textStatus, errorThrown) {//result è il token
+          if(textStatus=='success'){
+              alert("Inviti effettuati.");
+              window.location.reload();
+          }
+          else {
+              alert("Operazione fallita. Riprovare.")
+          }
+      },
+      error: function(){alert("Operazione fallita. Riprovare.")}
+  });
+
   }

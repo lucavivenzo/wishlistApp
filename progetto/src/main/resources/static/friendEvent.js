@@ -1,5 +1,6 @@
 let url = new URL(window.location.href);
-let pageId = url.searchParams.get("id");
+let eventId = url.searchParams.get("eventId");
+let friendId = url.searchParams.get("friendId");
 var eventAddress;
 
 
@@ -9,7 +10,7 @@ $(function() {
     $.ajax({
       url: "event/invitation",
       async: false,
-      data: {idFriend:pageId},
+      data: {idFriend:friendId, idEvent: eventId},
       success: function(item) {
         var id = item.id;
         var name = item.name;

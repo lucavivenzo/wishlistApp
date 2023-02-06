@@ -43,7 +43,8 @@ $(function() {
           var eventDescription = item.description;
           var eventDate = item.date;
           var eventAddress = item.eventAddress;
-          document.getElementById('nomeEvent').setAttribute("href","event.html?id="+eventId);
+          var eventOrganizerId = item.organizer.id;
+          document.getElementById('nomeEvent').setAttribute("href","friendEvent.html?eventId="+eventId+"&friendId="+eventOrganizerId);
           var cards = $("#cardEvent").clone() //clone first divs
           //add values inside divs
           //$(cards).find(".card-header").html(name);
