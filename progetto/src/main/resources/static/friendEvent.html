@@ -37,49 +37,43 @@
   </div>
 </nav>
 <main class="container">
-  
-  <div class="row justify-content-md-center">
-    
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
-  </button>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Invita amici</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <div class="row">
+    <p></p><p></p>
+    <h1>Evento</h1>
+    <p></p>
+    <div class="col-3">
+      <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+        <a href="events.html" button type="button" class="btn btn-primary">Eventi</a>
+        <a href="friends.html" type="button" class="btn btn-primary">Amici</a>
+        <a href="friendsrequests.html" type="button" class="btn btn-primary">Richieste di amicizia</a>
+      </div>
+    </div>
+    <div class="col-9" id="listaEvents">
+      <div class="card">
+        <!-- put item.userId & item.id below this -->
+        <div class="card-header" id="nomeEvent"></div>
+
+        <div class="card-body">
+          <!-- put item.title below this -->
+          <!-- <h5 class="card-title" id="nomeEvent"></h5> -->
+          <!-- put item.body below this -->
+          <p class="card-text"></p>
         </div>
-        <div class="modal-body">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                  NOME AMICO
-                </label>
-              </div>
-          <!-- qui va la checklist -->
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+        <ul class="list-group list-group-flush">Invitati:</ul>
       </div>
     </div>
   </div>
+  <div class="row justify-content-md-center">
     <p></p>
     <p></p>
     <div class="ratio ratio-21x9" id="mappaColonna"></div>
   </div>
-<!--  <div id="mappaColonna"><iframe id ="mappa" width="325" height="280" frameborder="0" src="https://www.bing.com/maps/embed?h=280&w=325&cp=45.7039406071205~137.3201416216382&lvl=2.037847582724944&typ=d&sty=r&src=SHELL&FORM=MBEDV8" scrolling="no"></iframe></div>-->
+
 </main>
 
 <script src="scripts.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<script src="event.js"></script>
+<script src="friendEvent.js"></script>
 
 </body>
 </html>
-

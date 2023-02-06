@@ -39,6 +39,8 @@
 <main class="container">
   <div class="row justify-content-around">
     <p></p><p></p>
+    <h1>Eventi degli amici</h1>
+    <p></p>
     <div class="col-3">
       <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
         <a href="events.html" button type="button" class="btn btn-primary">Eventi</a>
@@ -46,14 +48,14 @@
         <a href="friendsrequests.html" type="button" class="btn btn-primary">Richieste di amicizia</a>
       </div>
     </div>
-    <div class="col-9" id="listaWishlists">
+    <div class="col-9" id="listaEvents">
       <div class="card">
         <!-- put item.userId & item.id below this -->
         <!-- <div class="card-header"></div> -->
 
         <div class="card-body">
           <!-- put item.title below this -->
-          <h5 class="card-title"></h5>
+          <a class="card-title" id="nomeEvent" style="font-size: 20px; font-weight: bold"></a>
           <!-- put item.body below this -->
           <p class="card-text"></p>
         </div>
@@ -65,6 +67,7 @@
 
 <script src="scripts.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="events.js"></script>
 
 </body>
 </html>
