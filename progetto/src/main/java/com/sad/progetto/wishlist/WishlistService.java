@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @Service
 public class WishlistService {
@@ -68,8 +69,12 @@ public class WishlistService {
             Friendship friendship = friendshipRepository.findByAppUser1AndAppUser2AndState(ownerId, currentUser.getId(), 1);
 
             if (friendship != null) {
-
-                return wishlistRepository.findById(idWishlist).get();
+                //posso vedere la wishlist se sono negli invitati all'evento o se la wishlist non è associata a nessun evento
+                if ((wishlist.getEvent()!=null && wishlist.getEvent().getGuests().contains(currentUser)) || (wishlist.getEvent()==null)) {
+                    return wishlistRepository.findById(idWishlist).get();
+                } else {
+                    return null;
+                }
 
             } else {
                 return null;
@@ -91,7 +96,16 @@ public class WishlistService {
             AppUser friend = appUserRepository.findUserById(friendId);
 
             Set<Wishlist> wishlistsSet = friend.getWishlists();
-            List<Wishlist> wishlists = new ArrayList<>(wishlistsSet);
+            List<Wishlist> wishs = new ArrayList<>(wishlistsSet);
+            List<Wishlist> wishlists = new ArrayList<>();
+
+            for (Wishlist w : wishs) {
+                //se c'è un evento associato alla wishlist, controlla che sia stato invitato
+                //altrimenti se non c'è evento associato alla wishlist, restituiscila lo stesso
+                if ((w.getEvent()!=null && w.getEvent().getGuests().contains(currentUser)) || (w.getEvent()==null)) {
+                    wishlists.add(w);
+                }
+            }
 
             return wishlists;
         }
@@ -108,7 +122,24 @@ public class WishlistService {
         String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
 
-        List<Wishlist> friendsWishlists = wishlistRepository.getAllFriendsWishlistById(currentUser.getId());
+        List<Wishlist> friendsWishlists = new ArrayList<>();
+
+        Set<Friendship> f = currentUser.getFriendships();
+        List<Friendship> friendships = new ArrayList<>(f);
+
+        for (Friendship friend : friendships) {
+            //prendo l'ID dell'amico
+            Long friendId;
+            if (currentUser.getId()!=friend.getAppUser1().getId()) {
+                friendId=friend.getAppUser1().getId();
+            }
+            else {
+                friendId=friend.getAppUser2().getId();
+            }
+            //aggiungo tutte le wishlist visualizzabili
+            friendsWishlists.addAll(getWishlistsOfAFriend(friendId));
+        }
+
         return friendsWishlists;
     }
 

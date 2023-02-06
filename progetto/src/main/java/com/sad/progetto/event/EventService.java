@@ -2,6 +2,8 @@ package com.sad.progetto.event;
 
 import com.sad.progetto.appUser.AppUser;
 import com.sad.progetto.appUser.AppUserRepository;
+import com.sad.progetto.friendship.Friendship;
+import com.sad.progetto.friendship.FriendshipRepository;
 import com.sad.progetto.wishlist.Wishlist;
 import com.sad.progetto.wishlist.WishlistRepository;
 import com.sad.progetto.wishlist.WishlistService;
@@ -10,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -22,64 +25,172 @@ public class EventService {
     AppUserRepository appUserRepository;
     @Autowired
     WishlistRepository wishlistRepository;
+    @Autowired
+    private FriendshipRepository friendshipRepository;
 
+    public Event createEvent(Long wishlistId, String name, String description, String dateString, String eventAddress) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
-    public Event createEvent(Long wishlistId, String name, String description, String dateString, String eventAddress){
-        String email= SecurityContextHolder.getContext().getAuthentication().getName();
-        AppUser organizer=appUserRepository.findUserByEmail(email);
-        LocalDate date=LocalDate.parse(dateString);
+        AppUser organizer = appUserRepository.findUserByEmail(email);
+        LocalDate date = LocalDate.parse(dateString);
+
         Wishlist wishlist;
-        if(wishlistId==null){
-            wishlist=new Wishlist("Wishlist dell'evento: "+name,"Wishlist autogenerata per l'evento "+name);
+
+        //caso in cui la wishlist non esiste -> viene creata di default in loco
+        if (wishlistId == null) {
+            wishlist = new Wishlist("Wishlist dell'evento: " + name, "Wishlist autogenerata per l'evento " + name);
             wishlist.setOwner(organizer);
             organizer.addWishlist(wishlist);
-        }
-        else{
-            List<Wishlist> ownedWishlists = wishlistRepository.getAllOwnedWishlistsFromEmail(email);
-            wishlist = ownedWishlists.stream().filter(wishlist1 -> wishlistId.equals(wishlist1.getId())).findFirst().orElse(null);
-            if(wishlist!=null){
-                System.out.println("wishlist non tua o non esistente");
-                return null;
-            }
-        }
 
-        Event event=new Event(name,description,date,eventAddress,organizer,wishlist);//questa wishlist che abbiamo passato non ha riferimento all'evento, fa niente? la aggiorno dopo, ma c'è bisogno di riaggiornare anche Event? o non c'è bisogno neanche di aggiornare Wishlist?
-        organizer.addOrganizedEvent(event);
-        wishlist.setEvent(event);
-        eventRepository.save(event);
-        appUserRepository.save(organizer);
-        wishlistRepository.save(wishlist);
-        return event;
+            Event event = new Event(name, description, date, eventAddress, organizer, wishlist);//questa wishlist che abbiamo passato non ha riferimento all'evento, fa niente? la aggiorno dopo, ma c'è bisogno di riaggiornare anche Event? o non c'è bisogno neanche di aggiornare Wishlist?
+            organizer.addOrganizedEvent(event);
+            wishlist.setEvent(event);
+
+            eventRepository.save(event);
+            appUserRepository.save(organizer);
+            wishlistRepository.save(wishlist);
+            return event;
+        } else {
+            //se invece viene fornita, allora prende la wishlist dal db, controlla che il proprietario sia lo stesso
+            //del current user, ovvero di chi sta creando l'evento
+
+            wishlist = wishlistRepository.findWishlistById(wishlistId);
+
+            if ((wishlist != null) && (wishlist.getOwner().getId() == organizer.getId())) {
+                Event event = new Event(name,description,date,eventAddress,organizer,wishlist);//questa wishlist che abbiamo passato non ha riferimento all'evento, fa niente? la aggiorno dopo, ma c'è bisogno di riaggiornare anche Event? o non c'è bisogno neanche di aggiornare Wishlist?
+                organizer.addOrganizedEvent(event);
+                wishlist.setEvent(event);
+                eventRepository.save(event);
+                appUserRepository.save(organizer);
+                wishlistRepository.save(wishlist);
+                return event;
+            } else {
+                return null;
+        }
+    }
     }
 
-    public void deleteEvent(Long id){
-        String email=SecurityContextHolder.getContext().getAuthentication().getName();
+    public Boolean deleteEvent(Long id){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
         List<Long> organizedEvents = eventRepository.findAllOrganizedEventsFromEmail(email);
+
         if (organizedEvents.contains(id)){
-            Event event=eventRepository.findById(id).get();
-            AppUser organizer=event.getOrganizer();
-            Set<AppUser> guests=event.getGuests();
-            Wishlist wishlist=event.getWishlist();
+
+            Event event = eventRepository.findById(id).get();
+            AppUser organizer = event.getOrganizer();
+            Set<AppUser> guests = event.getGuests();
+            Wishlist wishlist = event.getWishlist();
+
             organizer.removeOrganizedEvent(event);
             organizer.removeWishlist(wishlist);
             appUserRepository.save(organizer);
+
             for(AppUser user : guests){
                 user.removeEvent(event);
                 appUserRepository.save(user);
             }
+
             wishlist.setEvent(null);
             wishlistRepository.delete(wishlist);
             eventRepository.delete(event);
+
+            return true;
         }
         else {
-            System.out.println("evento non tuo o inesistente");
+            return false;
         }
     }
 
-    public Event getEvent(Long id){//TODO: dovrebbe restituire eventi tuoi o dei tuoi amici
-        if(eventRepository.findById(id).isPresent())
+    //Restituisce il singolo evento se tuo
+    public Event getEvent(Long id){
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
+
+        if((eventRepository.findById(id).isPresent()) && (currentUser.getId()==eventRepository.findById(id).get().getOrganizer().getId())) {
             return eventRepository.findById(id).get();
+        }
         else return null;
+    }
+
+    //Restituisce i propri eventi (di cui si è owner)
+    public List<Event> listEvents() {
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
+
+        Set<Event> temp = currentUser.getOrganizedEvents();
+        List<Event> events = new ArrayList<>(temp);
+
+        return events;
+    }
+
+    //Restituisce gli eventi a cui sono invitato
+    public List<Event> getInvitations () {
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
+
+        Set<Event> temp = currentUser.getEvents();
+        List<Event> events = new ArrayList<>(temp);
+
+        return events;
+    }
+
+    //Restituisce tutti gli eventi di un amico se invitato
+    public List<Event> getInvitationsByAFriend(Long idFriend) {
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
+
+        Set<Event> temp = currentUser.getEvents();
+        List<Event> events = new ArrayList<>(temp);
+
+        List<Event> invitations = new ArrayList<>();
+        for (Event event : events) {
+            if (event.getOrganizer().getId()==idFriend) {
+                invitations.add(event);
+            }
+        }
+        return invitations;
+    }
+
+    //Restituisce il singolo evento dell'amico se sono invitato
+    public Event getInvitation(Long idFriend, Long idEvent) {
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
+
+        Event invitation;
+
+        List<Event> invitations = getInvitationsByAFriend(idFriend);
+        for (Event event : invitations) {
+            if (event.getId()==idEvent) {
+                invitation = event;
+                return event;
+            }
+        }
+        return null;
+    }
+
+    public Boolean invite (Long idFriend, Long idEvent) {
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
+
+        //controllare che chi sto invitando è amico e l'evento sia mio
+
+        Event event = eventRepository.findEventById(idEvent);
+        Friendship friendship = friendshipRepository.findByAppUser1AndAppUser2AndState(currentUser.getId(), idFriend,1);
+
+        if ( (event!=null) && (event.getOrganizer().getId()==currentUser.getId()) && (friendship!=null)) {
+
+            AppUser guest = appUserRepository.findUserById(idFriend);
+            guest.addEvent(event);
+            appUserRepository.save(guest);
+            //TODO: CAPIRE: ma se lo faccio anche qua, non è che lo fa due volte?
+            event.addGuest(guest);
+            eventRepository.save(event);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 }

@@ -117,4 +117,11 @@ public class Event {
     public void setWishlist(Wishlist wishlist) {
         this.wishlist = wishlist;
     }
+
+    public Boolean addGuest(AppUser guest){
+        return guests.add(guest);
+    }
+    public Boolean removeGuest(AppUser guest){
+        return guests.remove(guest);
+    }
 }
