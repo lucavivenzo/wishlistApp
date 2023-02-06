@@ -2,6 +2,8 @@ package com.sad.progetto.wishlist;
 
 import com.sad.progetto.appUser.AppUser;
 import com.sad.progetto.appUser.AppUserRepository;
+import com.sad.progetto.event.Event;
+import com.sad.progetto.event.EventRepository;
 import com.sad.progetto.friendship.Friendship;
 import com.sad.progetto.friendship.FriendshipRepository;
 import com.sad.progetto.present.Present;
@@ -22,6 +24,8 @@ public class WishlistService {
     @Autowired
     AppUserRepository appUserRepository;
     @Autowired
+    EventRepository eventRepository;
+    @Autowired
     WishlistRepository wishlistRepository;
     @Autowired
     PresentRepository presentRepository;
@@ -41,17 +45,40 @@ public class WishlistService {
     }
 
     public void removeWishlist(Long id){
-        String email=SecurityContextHolder.getContext().getAuthentication().getName();
-        List<Long> ownedWishlists = wishlistRepository.findAllOwnedWishlistsFromEmail(email);
-        if (ownedWishlists.contains(id)){
-            Wishlist wishlist=wishlistRepository.findById(id).get();
-            AppUser user=wishlist.getOwner();
-            System.out.println(user.toString());
-            user.removeWishlist(wishlist);
-            wishlistRepository.delete(wishlist);
-            appUserRepository.save(user);
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser currentUser = appUserRepository.findUserByEmail(currentUserEmail);
+
+        Set<Wishlist> temp = currentUser.getWishlists();
+        List<Wishlist> wishlistsOwned = new ArrayList<>(temp);
+
+        for (Wishlist wishlist : wishlistsOwned) {
+            if (wishlist.getId()==id) {
+                //TODO: VEDIAMO COSA SUCCEDE SE ELIMINO LA WISHLIST SENZA TOCCARE L'EVENTO. METTO LA WISHLIST DELL'EVENTO A NULL.
+                //PARE FUNZIONARE
+                currentUser.removeWishlist(wishlist);
+                appUserRepository.save(currentUser);
+                if (wishlist.getEvent()!=null) {
+                    Event event = wishlist.getEvent();
+                    event.setWishlist(null);
+                    eventRepository.save(event);
+                }
+                wishlistRepository.delete(wishlist);
             }
-        return;
+        }
+
+        //TODO: LA QUERY NON FUNZIONA SULLE LISTE COLLEGATE AD UN EVENTO
+        //Posso eliminare la wishlist anche quando collegata ad un evento?
+
+        //List<Long> ownedWishlists = wishlistRepository.findAllOwnedWishlistsFromEmail(email);
+//        if (ownedWishlists.contains(id)){
+//            Wishlist wishlist=wishlistRepository.findById(id).get();
+//            AppUser user=wishlist.getOwner();
+//            System.out.println(user.toString());
+//            user.removeWishlist(wishlist);
+//            wishlistRepository.delete(wishlist);
+//            appUserRepository.save(user);
+//            }
+//        return;
 
     }
 
