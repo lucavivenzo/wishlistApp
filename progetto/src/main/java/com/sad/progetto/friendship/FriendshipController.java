@@ -25,7 +25,7 @@ public class FriendshipController {
         Boolean added = friendshipService.addFriend(friendId);
 
         if (added) {
-            return ResponseEntity.ok("Friend added. Waiting for response.");
+            return ResponseEntity.ok("Richiesta di amicizia inviata. Attendi una risposta");
         }
         else {
             return ResponseEntity.status(400).body("Error. Bad request!");

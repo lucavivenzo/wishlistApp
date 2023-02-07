@@ -11,8 +11,8 @@ $(function() {
           var dataRichiesta = item.value1;
           //TODO: non credo abbia molto senso visualizzare profilo di non amici. Capire quindi cosa fare quando si accede da url al profilo di un non amico
           //document.getElementById('nomeUtente').setAttribute("href","profile/"+id);
-          document.getElementById('accetta').setAttribute("href","setFriendship?accept=1&friendId="+id);
-          document.getElementById('rifiuta').setAttribute("href","setFriendship?accept=0&friendId="+id);
+          document.getElementById('accetta').setAttribute("onclick","accept("+id+")");
+          document.getElementById('rifiuta').setAttribute("onclick","refuse("+id+")");
           var cards = $(".card:first").clone() //clone first divs
           //add values inside divs
           $(cards).find(".card-header").html(dataRichiesta);
@@ -24,3 +24,39 @@ $(function() {
       }
     });
   });
+
+  function accept(idFriend){
+    $.ajax({
+      url: "setFriendship",
+      async: false,
+      data: {accept : 1, friendId : idFriend},
+      success: function(item, textStatus, errorThrown) {
+        if(textStatus=='success'){
+          alert("Amico aggiunto con successo");
+          window.location.reload();
+        }
+        else {
+            alert("Operazione fallita. Riprovare.")
+        }
+      },
+      error: function(){alert("Operazione fallita. Riprovare.")}
+    });
+  }
+
+  function refuse(idFriend){
+    $.ajax({
+      url: "setFriendship",
+      async: false,
+      data: {accept : 0, friendId : idFriend},
+      success: function(item, textStatus, errorThrown) {
+        if(textStatus=='success'){
+          alert("Richiesta di amicizia rifiutata");
+          window.location.reload();
+        }
+        else {
+            alert("Operazione fallita. Riprovare.")
+        }
+      },
+      error: function(){alert("Operazione fallita. Riprovare.")}
+    });
+  }

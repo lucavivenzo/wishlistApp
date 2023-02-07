@@ -14,7 +14,7 @@ $(function() {
           var email = item.email;
           //TODO: non credo abbia molto senso visualizzare profilo di non amici. Capire quindi cosa fare quando si accede da url al profilo di un non amico
           //document.getElementById('nomeUtente').setAttribute("href","profile/"+id);
-          document.getElementById('aggiungi').setAttribute("href","addFriend?friendId="+id);
+          document.getElementById('aggiungi').setAttribute("onclick","addFriend("+id+")");
           var cards = $(".card:first").clone() //clone first divs
           //add values inside divs
           $(cards).find(".card-title").html(username);
@@ -25,3 +25,21 @@ $(function() {
       }
     });
   });
+
+  function addFriend(idFriend){
+    $.ajax({
+      url: "addFriend",
+      async: false,
+      data: {friendId : idFriend},
+      success: function(item, textStatus, errorThrown) {
+        if(textStatus=='success'){//qua volendo in base alle stringhe restituite dare diversi errori
+          alert(item);
+          window.location.reload();
+        }
+        else {
+            alert("Operazione fallita. Riprovare.")
+        }
+      },
+      error: function(){alert("Operazione fallita. Riprovare.")}
+    });
+  }
