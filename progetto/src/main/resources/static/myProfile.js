@@ -1,13 +1,21 @@
 $(function() {
   $("#cardWishlist").hide()
   $("#cardEvent").hide()
+
+  $.ajax({
+    url: 'currentuser',
+    type: 'GET',
+    success: function(result, textStatus, errorThrown) {
+      var nomeUtente=result.username;
+      var emailUtente=result.email;
+      document.getElementById('nomeProfilo').innerText=nomeUtente;
+      document.getElementById('emailProfilo').innerText=emailUtente;
+    }
+  });
+
   $.ajax({
     url: "wishlist/all",
     success: function(result) {
-      var nomeUtente=result[0].owner.username;
-      var emailUtente=result[0].owner.email;
-      document.getElementById('nomeProfilo').innerText=nomeUtente;
-      document.getElementById('emailProfilo').innerText=emailUtente;
       $.each(result, function(index, item) {
         var id = item.id;
         var name = item.name;

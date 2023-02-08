@@ -18,6 +18,8 @@ $(function() {
         var eventDate = item.date;
         eventAddress = item.eventAddress;
         var eventGuests = item.guests;
+        var organizer = item.organizer.username;
+        document.getElementById('nomeProprietario').innerText+=' '+organizer;
         
         var cards = $(".card:first").clone() //clone first divs
         //add values inside divs

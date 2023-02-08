@@ -5,14 +5,23 @@ var eventAddress;
 $(function() {
     $("#cardWishlist").hide()
     $("#cardEvent").hide()
+
+    $.ajax({
+      url: 'user',
+      type: 'GET',
+      data: {id:pageId},
+      success: function(result, textStatus, errorThrown) {
+        var nomeUtente=result.username;
+        var emailUtente=result.email;
+        document.getElementById('nomeProfilo').innerText=nomeUtente;
+        document.getElementById('emailProfilo').innerText=emailUtente;
+      }
+    });
+
     $.ajax({
       url: "wishlist/wishlistsofafriend",
       data: {friendId:pageId},
       success: function(result) {
-        var nomeUtente=result[0].owner.username;
-        var emailUtente=result[0].owner.email;
-        document.getElementById('nomeProfilo').innerText=nomeUtente;
-        document.getElementById('emailProfilo').innerText=emailUtente;
         $.each(result, function(index, item) {
           var id = item.id;
           var name = item.name;

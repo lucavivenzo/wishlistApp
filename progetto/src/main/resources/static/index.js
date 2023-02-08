@@ -13,17 +13,17 @@ $(function() {
           var ownerId = item.owner.id;
           var ownerName = item.owner.username;
           document.getElementById('nomeProprietario').setAttribute("href","profile.html?id="+ownerId);
-          document.getElementById('nomeWishlist').setAttribute("href","wishlist.html?id="+id);
+          document.getElementById('nomeWishlist').setAttribute("href","friendWishlist.html?id="+id);
           var cards = $(".card:first").clone() //clone first divs
           //add values inside divs
           $(cards).find(".card-header").html("Wishlist di "+ownerName);
           $(cards).find(".card-title").html(name);
           $(cards).find(".card-text").html(description);
-          $.each(presents, function(index2, item2){
-            if(item2.state==false) {$(cards).find(".list-group").append("<li class='list-group-item d-flex'><p class='p-0 m-0 flex-grow-1'>"+"Regalo "+(index2+1)+": "+item2.name+" "+item2.description+" "+item2.link+"</p><button id ='button"+item2.id+"' type='button' class=' btn btn-danger' onclick='markAsBought("+item2.id+")'>Segna come acquistato</button></li>");}
-            else {$(cards).find(".list-group").append("<li class='list-group-item d-flex'><p class='p-0 m-0 flex-grow-1'>"+"Regalo "+(index2+1)+": "+item2.name+" "+item2.description+" "+item2.link+"</p><button type='button' class=' btn btn-danger' disabled>Già acquistato</button></li>");}
-            //$(cards).find(".list-group").append("<li class='list-group-item'>"+"Regalo "+(index2+1)+": "+item2.name+" "+item2.description+" "+item2.link+"</li>");
-          })
+          // $.each(presents, function(index2, item2){
+          //   if(item2.state==false) {$(cards).find(".list-group").append("<li class='list-group-item d-flex'><p class='p-0 m-0 flex-grow-1'>"+"Regalo "+(index2+1)+": "+item2.name+" "+item2.description+" "+item2.link+"</p><button id ='button"+item2.id+"' type='button' class=' btn btn-danger' onclick='markAsBought("+item2.id+")'>Segna come acquistato</button></li>");}
+          //   else {$(cards).find(".list-group").append("<li class='list-group-item d-flex'><p class='p-0 m-0 flex-grow-1'>"+"Regalo "+(index2+1)+": "+item2.name+" "+item2.description+" "+item2.link+"</p><button type='button' class=' btn btn-danger' disabled>Già acquistato</button></li>");}
+          //   //$(cards).find(".list-group").append("<li class='list-group-item'>"+"Regalo "+(index2+1)+": "+item2.name+" "+item2.description+" "+item2.link+"</li>");
+          // })
           $(cards).show() //show cards
           $(cards).appendTo($("#listaWishlists")) //append to container
         });

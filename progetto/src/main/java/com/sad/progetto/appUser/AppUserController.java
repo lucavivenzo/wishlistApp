@@ -35,6 +35,16 @@ public class AppUserController {
         return ResponseEntity.ok(appUserService.searchAppUser(pattern));
     }
 
+    @GetMapping("/user")
+    public AppUser getAppUser(@RequestParam(name="id") Long id){
+        return appUserService.getAppUser(id);
+    }
+
+    @GetMapping("/currentuser")
+    public AppUser getCurrentAppUser(){
+        return appUserService.getCurrentAppUser();
+    }
+
     //  TODO: REGISTER DEFINITIVA CON LA POST, CANCELLARE L'ALTRA
     /*@PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {

@@ -1,6 +1,7 @@
 package com.sad.progetto.appUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,15 @@ public class AppUserService {
 
     public List<AppUser> searchAppUser(String pattern){
         return appUserRepository.searchAppUserByUsername('%'+pattern+'%');
+    }
+
+    public AppUser getAppUser(Long id){
+        return appUserRepository.findUserById(id);
+    }
+
+    public AppUser getCurrentAppUser(){
+        String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        return appUserRepository.findUserByEmail(currentUserEmail);
     }
 
 }
