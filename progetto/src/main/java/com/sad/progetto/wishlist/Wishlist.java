@@ -7,6 +7,7 @@ import com.sad.progetto.present.Present;
 import com.sad.progetto.appUser.AppUser;
 import jakarta.persistence.*;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -27,6 +28,13 @@ public class Wishlist {
     @OneToMany(cascade = {CascadeType.ALL})
     private Set<Present> presents;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Wishlist wishlist)) return false;
+        return Objects.equals(getId(), wishlist.getId()) && Objects.equals(getName(), wishlist.getName()) && Objects.equals(getDescription(), wishlist.getDescription()) && Objects.equals(getSize(), wishlist.getSize()) && Objects.equals(getEvent(), wishlist.getEvent()) && Objects.equals(getOwner(), wishlist.getOwner()) && Objects.equals(getPresents(), wishlist.getPresents());
+    }
+
     public Wishlist() {
     }
 
@@ -43,6 +51,8 @@ public class Wishlist {
         this.owner = owner;
         this.presents = presents;
     }
+
+    public  Wishlist (Set<Present> presents) {this.presents = presents;}
 
     public Long getId() {
         return id;

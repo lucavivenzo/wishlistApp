@@ -39,6 +39,14 @@ public class Present {
         this.wishlist = wishlist;
     }
 
+    public Present(String name, String description, String link, Boolean state, Wishlist wishlist) {
+        this.name = name;
+        this.description = description;
+        this.link = link;
+        this.state = state;
+        this.wishlist = wishlist;
+    }
+
     public Long getId() {
         return id;
     }

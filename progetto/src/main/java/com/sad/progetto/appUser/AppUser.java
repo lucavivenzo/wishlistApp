@@ -7,6 +7,7 @@ import com.sad.progetto.event.Event;
 import com.sad.progetto.wishlist.Wishlist;
 import jakarta.persistence.*;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -50,6 +51,23 @@ public class AppUser {
         this.friendships = friendships;
         this.organizedEvents = organizedEvents;
         this.events = events;
+    }
+
+    public AppUser(String username, String email, String password, Set<Event> events) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.events = events;
+    }
+
+    public AppUser(String username, String email, String password, Set<Friendship> friendships, Set<Event> organizedEvents, Set<Event> events, Set<Wishlist> wishlists) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.friendships = friendships;
+        this.organizedEvents = organizedEvents;
+        this.events = events;
+        this.wishlists = wishlists;
     }
 
     public Set<Event> getOrganizedEvents() {
@@ -140,7 +158,7 @@ public class AppUser {
     }
 
     public Boolean removeEvent(Event event){
-        return events.remove(event);
+        return this.events.remove(event);
     }
 
     public Boolean addWishlist(Wishlist wishlist){
@@ -159,5 +177,12 @@ public class AppUser {
         return friendships.remove(friendship);
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AppUser appUser)) return false;
+        return Objects.equals(getId(), appUser.getId()) && Objects.equals(getUsername(), appUser.getUsername()) && Objects.equals(getEmail(), appUser.getEmail()) && Objects.equals(getPassword(), appUser.getPassword()) && Objects.equals(getFriendships(), appUser.getFriendships()) && Objects.equals(getOrganizedEvents(), appUser.getOrganizedEvents()) && Objects.equals(getEvents(), appUser.getEvents()) && Objects.equals(getWishlists(), appUser.getWishlists());
+    }
 
 }

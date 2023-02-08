@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Set;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
@@ -31,6 +32,12 @@ public class Event {
     private Wishlist wishlist;
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Event event)) return false;
+        return Objects.equals(getId(), event.getId()) && Objects.equals(getName(), event.getName()) && Objects.equals(getDescription(), event.getDescription()) && Objects.equals(getDate(), event.getDate()) && Objects.equals(getEventAddress(), event.getEventAddress()) && Objects.equals(getOrganizer(), event.getOrganizer()) && Objects.equals(getGuests(), event.getGuests()) && Objects.equals(getWishlist(), event.getWishlist());
+    }
 
     public Event() {
     }
@@ -113,6 +120,7 @@ public class Event {
     public Wishlist getWishlist() {
         return wishlist;
     }
+
 
     public void setWishlist(Wishlist wishlist) {
         this.wishlist = wishlist;
