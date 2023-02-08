@@ -59,16 +59,16 @@ $(function() {
         $.each(result, function(index, item) {
           var id = item.id;
           var username = item.username;
-          console.log(result)
-          console.log(item)
-          console.log(eventGuests.includes(item))
+//          console.log(result)
+//          console.log(item)
+//          console.log(eventGuests.includes(item))
 
           var contains = eventGuests.some(elem =>{
             return JSON.stringify(item) === JSON.stringify(elem);
           });
-          
+          console.log(index)
           if(!(contains)){//aggiungi check con username solo se già non invitati. hanno id crescenti
-            document.getElementById('checklistAmici').innerHTML+="<div class='form-check'><input class='form-check-input' type='checkbox' value='"+id+"' id='check"+index+"'><label class='form-check-label' for='check"+id+"'>"+username+"</label></div>";
+            document.getElementById('checklistAmici').innerHTML+="<div class='form-check'><input class='form-check-input' type='checkbox' value='"+id+"' id='check"+nOfFriendsNotInvited+"'><label class='form-check-label' for='check"+nOfFriendsNotInvited+"'>"+username+"</label></div>";
             nOfFriendsNotInvited++;
           }
         });
@@ -99,6 +99,7 @@ $(function() {
     var checkElement;
     for(let i=0;i<nOfFriendsNotInvited;i++){
       checkElement=document.getElementById('check'+i)
+      console.log(checkElement)
       if(checkElement.checked) {newGuestsIds.push(checkElement.value);}
     }
 

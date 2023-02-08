@@ -67,7 +67,7 @@ $(function() {
             success: function(result, textStatus, errorThrown) {
                 if(textStatus=='success'){
                     alert('Inserimento riuscito.')
-                    window.location.replace('event.html?id='+wishlistE.value);
+                    window.location.replace('event.html?id='+result.id);
                 }
                 else {
                     alert("Inserimento fallito. Riprovare.")
