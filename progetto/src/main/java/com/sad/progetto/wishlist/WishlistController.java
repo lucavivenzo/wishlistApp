@@ -79,7 +79,7 @@ public class WishlistController {
 
 
     @GetMapping("/friendswishlist")
-    public List<Wishlist> getFriendsWishlist() {
+    public List<Wishlist> getFriendsWishlists() {
         return wishlistService.getFriendsWishlists();
     }
 
