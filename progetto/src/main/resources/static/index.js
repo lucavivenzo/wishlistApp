@@ -16,7 +16,7 @@ $(function() {
           document.getElementById('nomeWishlist').setAttribute("href","friendWishlist.html?id="+id);
           var cards = $(".card:first").clone() //clone first divs
           //add values inside divs
-          $(cards).find(".card-header").html("Wishlist di "+ownerName);
+          $(cards).find(".card-header").html(ownerName);
           $(cards).find(".card-title").html(name);
           $(cards).find(".card-text").html(description);
           // $.each(presents, function(index2, item2){
