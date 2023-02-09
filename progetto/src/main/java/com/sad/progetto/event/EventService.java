@@ -249,4 +249,9 @@ public class EventService {
         return false;
     }
 
+    public Long getWishlistFromEvent(Long idEvent) {
+        Event event = eventRepository.findEventById(idEvent);
+        return event.getWishlist().getId();
+    }
+
 }

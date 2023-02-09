@@ -119,4 +119,10 @@ public class EventController {
         }
     }
 
+    @GetMapping(path="wishlistfromevent")
+    public ResponseEntity<Long> getWishlistFromEvent(@RequestParam(name="idEvent") Long idEvent) {
+         return ResponseEntity.ok(eventService.getWishlistFromEvent(idEvent));
+    }
+
+
 }
