@@ -25,13 +25,24 @@ $(function() {
         //add values inside divs
         //$(cards).find(".card-header").html(name);
         $(cards).find(".card-header").html(name);
-        $(cards).find(".card-text").html(description+' '+eventDate+' '+eventAddress);
+        //$(cards).find(".card-text").html(description+' '+eventDate+' '+eventAddress);
+        $(cards).find(".card-text").html("<p class='p-0 m-0 flex-grow-1'>"+description+" "+eventDate+" "+eventAddress+"</p><a class='text-body' id='refWishlist' href=''></a>");
         $.each(eventGuests, function(index2, item2){
           $(cards).find(".list-group").append("<li class='list-group-item'>"+item2.username+"</li>");
         })
         $(cards).show() //show cards
         $(cards).appendTo($("#listaEvents")) //append to container
       }
+    });
+
+    $.ajax({
+          url: "event/wishlistfromevent",
+          async: false,
+          data: {idEvent: eventId},
+          success: function(item) {
+          document.getElementById('refWishlist').innerText+=item.name;
+          document.getElementById('refWishlist').setAttribute("href","friendWishlist.html?id="+item.id);
+          }
     });
     
     $.ajax({
