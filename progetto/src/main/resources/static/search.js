@@ -2,6 +2,7 @@ let url = new URL(window.location.href);
 let pattern = url.searchParams.get("pattern");
 
 $(function() {
+    document.getElementById('risRicerca').innerText+=" '"+pattern+"'";
     //hide first div or remove after append using `$(".card:first").remove()`
     $(".card:first").hide()
     $.ajax({
