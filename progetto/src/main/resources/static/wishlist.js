@@ -21,10 +21,10 @@ $(function() {
         $(cards).find(".card-text").html(description);
         $.each(presents, function(index2, item2){
           if(item2.state){//se è stato acquistato
-            $(cards).find(".list-group").append("<li class='list-group-item d-flex'><p class='p-0 m-0 flex-grow-1'>"+"Regalo "+(index2+1)+": "+item2.name+" "+item2.description+" "+item2.link+"</p><button type='button' class=' btn btn-success' disabled>Regalo acquistato</button></li>");
+            $(cards).find(".list-group").append("<li class='list-group-item d-flex'><p class='p-0 m-0 flex-grow-1'>"+"Regalo "+(index2+1)+": "+item2.name+" <br> Descrizione: "+item2.description+" <br> Link: "+"<a href='"+item2.link+"'>"+item2.link+"</a></p><button type='button' class=' btn btn-success' disabled>Regalo acquistato</button></li>");
           }
           else{
-            $(cards).find(".list-group").append("<li class='list-group-item d-flex'><p class='p-0 m-0 flex-grow-1'>"+"Regalo "+(index2+1)+": "+item2.name+" "+item2.description+" "+item2.link+"</p><button type='button' class=' btn btn-danger' onclick='removePresent("+item2.id+")'>Elimina regalo</button></li>");
+            $(cards).find(".list-group").append("<li class='list-group-item d-flex'><p class='p-0 m-0 flex-grow-1'>"+"Regalo "+(index2+1)+": "+item2.name+" <br> Descrizione: "+item2.description+" <br> Link:  "+"<a href='"+item2.link+"'>"+item2.link+"</a></p><button type='button' class=' btn btn-danger' onclick='removePresent("+item2.id+")'>Elimina regalo</button></li>");
           }
           
           //$(cards).find(".list-group").append("<li class='list-group-item'>"+item2.name+" "+item2.description+" "+item2.link+"</li>");

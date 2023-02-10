@@ -23,8 +23,8 @@ $(function() {
           $(cards).find(".card-title").html(name);
           $(cards).find(".card-text").html(description);
           $.each(presents, function(index2, item2){
-            if(item2.state==false) {$(cards).find(".list-group").append("<li class='list-group-item d-flex'><p class='p-0 m-0 flex-grow-1'>"+"Regalo "+(index2+1)+": "+item2.name+" "+item2.description+" "+item2.link+"</p><button id ='button"+item2.id+"' type='button' class=' btn btn-danger' onclick='markAsBought("+item2.id+")'>Segna come acquistato</button></li>");}
-            else {$(cards).find(".list-group").append("<li class='list-group-item d-flex'><p class='p-0 m-0 flex-grow-1'>"+"Regalo "+(index2+1)+": "+item2.name+" "+item2.description+" "+item2.link+"</p><button type='button' class=' btn btn-danger' disabled>Già acquistato</button></li>");}
+            if(item2.state==false) {$(cards).find(".list-group").append("<li class='list-group-item d-flex'><p class='p-0 m-0 flex-grow-1'>"+"Regalo "+(index2+1)+": "+item2.name+" <br> Descrizione: "+item2.description+" <br> Link: "+"<a href='"+item2.link+"'>"+item2.link+"</a></p><button id ='button"+item2.id+"' type='button' class=' btn btn-danger' onclick='markAsBought("+item2.id+")'>Segna come acquistato</button></li>");}
+            else {$(cards).find(".list-group").append("<li class='list-group-item d-flex'><p class='p-0 m-0 flex-grow-1'>"+"Regalo "+(index2+1)+": "+item2.name+" <br> Descrizione: "+item2.description+" <br> Link: "+"<a href='"+item2.link+"'>"+item2.link+"</a></p><button type='button' class=' btn btn-danger' disabled>Già acquistato</button></li>");}
             //$(cards).find(".list-group").append("<li class='list-group-item'>"+"Regalo "+(index2+1)+": "+item2.name+" "+item2.description+" "+item2.link+"</li>");
           })
           $(cards).show() //show cards

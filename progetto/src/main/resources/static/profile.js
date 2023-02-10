@@ -35,7 +35,7 @@ $(function() {
           $(cards).find(".card-title").html(name);
           $(cards).find(".card-text").html(description);
           $.each(presents, function(index2, item2){
-              $(cards).find(".list-group").append("<li class='list-group-item'>"+"Regalo "+(index2+1)+": "+item2.name+" "+item2.description+" "+item2.link+"</li>");
+              $(cards).find(".list-group").append("<li class='list-group-item'>"+"Regalo "+(index2+1)+": "+item2.name+" <br> Descrizione: "+item2.description+" <br> Link: "+"<a href='"+item2.link+"'>"+item2.link+"</a></li>");
           })
           $(cards).show() //show cards
           $(cards).appendTo($("#listaWishlists")) //append to container
