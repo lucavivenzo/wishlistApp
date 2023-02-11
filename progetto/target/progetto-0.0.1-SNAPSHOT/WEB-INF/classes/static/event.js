@@ -26,6 +26,7 @@ $(function() {
         //$(cards).find(".card-header").html(name);
         $(cards).find(".card-header").html("<p class='p-0 m-0 flex-grow-1'>"+name+"</p><button class='btn btn-danger' type='button' onclick='removeEvent()'>Elimina evento</button>");
         $(cards).find(".card-text").html("<p class='p-0 m-0 flex-grow-1'>"+description+' '+eventDate+' '+eventAddress+"</p><button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>Aggiungi invitati</button>");
+        $(cards).find(".list-group").append("<a class='font-weight-bold' id='refWishlist' href=''></a>Invitati:");
         $.each(eventGuests, function(index2, item2){
           $(cards).find(".list-group").append("<li class='list-group-item'>"+item2.username+"</li>");
         })
@@ -33,6 +34,16 @@ $(function() {
         $(cards).appendTo($("#listaEvents")) //append to container
       }
     });
+
+    $.ajax({
+              url: "event/wishlistfromevent",
+              async: false,
+              data: {idEvent: pageId},
+              success: function(item) {
+              document.getElementById('refWishlist').innerText+=item.name;
+              document.getElementById('refWishlist').setAttribute("href","wishlist.html?id="+item.id);
+              }
+        });
     
     $.ajax({
       url: "https://nominatim.openstreetmap.org/search?q="+encodeURIComponent(eventAddress)+"&format=json",
