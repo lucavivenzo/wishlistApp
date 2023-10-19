@@ -1,6 +1,7 @@
 # WishlistApp - A Social Wishlist Network
 
 Simone Staiano M63001037
+
 Luca Vivenzo M63001072
 
 Within this repository, you will find:
