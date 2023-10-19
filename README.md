@@ -50,7 +50,8 @@ WishlistApp is designed to simplify the process of choosing presents for your fr
 ### Architecture Overview
 
 WishlistApp is built using a client-server architecture. The client-side, responsible for the web interface, is developed using Bootstrap, while the server-side logic is powered by the Spring Boot framework. The application follows a RESTful API design.
-WishlistApp uses a PostgreSQL database for storing user data, wishlists, events, and more. You can configure the database connection in the `application.properties` or `application.yml` file:
+
+WishlistApp uses a PostgreSQL database for storing user data, wishlists, events, and more. You can configure the database connection in the `application.properties` file.
 
 # Authentication and Security
 
