@@ -48,17 +48,17 @@ WishlistApp is designed to simplify the process of choosing presents for your fr
 
 5. **Invite Friends:** Invite your friends to your events and share your wishlists.
 
-### Architecture Overview
+## Architecture Overview
 
 WishlistApp is built using a client-server architecture. The client-side, responsible for the web interface, is developed using Bootstrap, while the server-side logic is powered by the Spring Boot framework. The application follows a RESTful API design.
 
 WishlistApp uses a PostgreSQL database for storing user data, wishlists, events, and more. You can configure the database connection in the `application.properties` file.
 
-# Authentication and Security
+### Authentication and Security
 
 WishlistApp secures your data using the Spring Boot Security framework with JWT token-based authentication. Users must authenticate to access protected resources. You can customize security settings in your Spring Boot application's configuration.
 
-### Installation
+## Installation
 
 To run WishlistApp locally, follow these installation steps:
 
