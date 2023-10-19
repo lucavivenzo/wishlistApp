@@ -63,7 +63,7 @@ To run WishlistApp locally, follow these installation steps:
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/your-username/WishlistApp.git
+   git clone https://github.com/lucavivenzo/WishlistApp.git
 
 2. **Navigate to the Project Directory:**
    ```bash
