@@ -87,7 +87,6 @@ To run WishlistApp locally, follow these installation steps:
 
 ## Project Structure
 
-WishlistApp follows a structured project organization. Key directories include:
 * src/main/ - Server-side source code.
 * src/main/resources - Application properties and configurations.
 * src/main/resources/static - Client-side web interface.
