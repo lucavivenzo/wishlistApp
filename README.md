@@ -5,10 +5,10 @@ Luca Vivenzo M63001072
 
 Within this repository, you will find:
 
-The code of the application.
-Documentation in .pdf format. [In Italian]
-Diagrams in .vpp format.
-The ROOT.war package for deploying the application."
+- The code of the application.
+- Documentation in .pdf format. [In Italian]
+- Diagrams in .vpp format.
+- The ROOT.war package for deploying the application.
 
 ## Overview
 
